@@ -39,7 +39,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'quizapi',
     'openai',
-    'rest_framework',
 ]
 
 MIDDLEWARE = [
