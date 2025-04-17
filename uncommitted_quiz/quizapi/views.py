@@ -1,17 +1,17 @@
-from django .shortcuts import render
+from django.shortcuts import render
 from django.http import JsonResponse
 from .utils import gen_quiz_question
 
 def get_quiz_questions(request):
-    if quiz_questions not in request.session:
+    if 'quiz_questions' not in request.session:
         request.session['quiz_questions'] = []
         request.session['question_count'] = 0
         if request.session['question_count'] >= 5:
             request.session.flush()
             return JsonResponse({
                 "complete": True,
-                "score": 100%
-                "message": "You scored 100% because being willing to try makes you a coder"
+                "score": "100%",
+                "message": "You scored 100% because being willing to try makes you a coder",
             })
         
     question = gen_quiz_question()
