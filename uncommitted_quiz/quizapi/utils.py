@@ -1,34 +1,50 @@
-import openai
-import os
+from openai import OpenAI
 import json
+import os
+from dotenv import load_dotenv
+import re
+
+load_dotenv()
+
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
 Prompt = """
-Generate a coding related question with the following requirements:
-1. The question should be a multiple choice question with 4 options.
-2. The question should be related to Python, Django, Javascript, HTML and CSS programming.
-3. The question should be suitable for a beginner level audience.
-4. The question should be clear and concise.
-5. All answers should be correct so it is impossible to get it wrong
-6. The question should be in English.
-7. The question should be in a JSON  format like this:
+Generate a unique coding-related multiple-choice question with the following requirements:
+1. The question should be related to web development, with a focus on Python, Django, Javascript, HTML, and CSS.
+2. The question should be beginner-friendly, and clear in its wording.
+3. The question should have exactly 4 options (A, B, C, D), all of which are plausible.
+4. Each answer should be correct, so it’s impossible to get it wrong.
+5. The question and answers must be returned in a JSON format, like this:
 {
-"question": "...",
-"answers": ["...", "...", "...", "..."]}
+  "question": "What does HTML stand for?",
+  "answers": [
+    "Hyper Text Markup Language",
+    "Home Tool Markup Language",
+    "Hyper Trainer Marking Language",
+    "Hyper Text Markup Logic"
+  ]
+}
+Make sure the answers are distinct and relevant to the question.
 """
 
-openai.api_key = os.getenv("OPENAI_API_KEY")
+
+client = OpenAI(api_key=OPENAI_API_KEY)
+
 
 def gen_quiz_question():
-    response = openai.ChatCompletion.create(
+    response = client.chat.completions.create(
         model="gpt-4o-mini",
         messages=[
             {"role": "user", "content": Prompt},
+        ],
         temperature=0.7,
-        ]
     )
-    question = response.choices[0].message['content']
+    content = response.choices[0].message.content
+
+    content = re.sub(r"^```(?:json)?|```$", "", content.strip(), flags=re.MULTILINE).strip()
+
     try:
-        return json.loads(question)
+        return json.loads(content)
     except json.JSONDecodeError:
         return {
             "question": "You're awesome and capable!",
