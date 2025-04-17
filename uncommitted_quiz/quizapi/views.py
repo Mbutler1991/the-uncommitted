@@ -6,6 +6,7 @@ def get_quiz_questions(request):
     if 'quiz_questions' not in request.session:
         request.session['quiz_questions'] = []
         request.session['question_count'] = 0
+
         if request.session['question_count'] >= 5:
             request.session.flush()
             return JsonResponse({
@@ -17,9 +18,11 @@ def get_quiz_questions(request):
     question = gen_quiz_question()
     request.session['quiz_questions'].append(question)
     request.session['question_count'] += 1
+
     return JsonResponse({
         "complete": False,
         "question": question['question'],
+        "answers": question['answers'], 
         "current": request.session['question_count'],
         "total": 5,
     })
