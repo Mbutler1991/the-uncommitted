@@ -1,4 +1,4 @@
-from django .shortcuts import render
+from django.shortcuts import render
 from django.http import JsonResponse
 from .utils import gen_quiz_question
 
@@ -7,16 +7,14 @@ def get_quiz_questions(request):
         request.session['quiz_questions'] = []
         request.session['question_count'] = 0
 
-    # Check if we have reached 5 questions
-    if request.session['question_count'] >= 5:
-        request.session.flush()  # Clear session and reset
-        return JsonResponse({
-            "complete": True,
-            "score": "100%",
-            "message": "Well done, you win! Keep up the great work!"
-        })
-
-    # Get a new question and add it to the session
+        if request.session['question_count'] >= 5:
+            request.session.flush()
+            return JsonResponse({
+                "complete": True,
+                "score": "100%",
+                "message": "You scored 100% because being willing to try makes you a coder",
+            })
+        
     question = gen_quiz_question()
     request.session['quiz_questions'].append(question)
     request.session['question_count'] += 1

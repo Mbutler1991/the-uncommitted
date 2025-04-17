@@ -1,0 +1,53 @@
+truncatechars_html  
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        {% block meta   %}
+            <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <meta charset="UTF-8">
+            <meta name="description" content="The Uncommitted Quiz Application">
+            <meta name="keywords" content="quiz, application, django, web development">
+            <meta name="author" content="2504-hackathon-team5">
+            <meta name="robots" content="index, follow">
+        {% endblock %}
+    
+        {% block corecss %}
+            <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+            <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+            <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
+            <link rel="stylesheet" href="{% static 'css/quiz.css' %}">
+        {% endblock %}
+        
+        {% block extra_css %}{% endblock %} 
+        <title>{% block title %}The Uncommitted{% endblock %}</title>
+    </head>
+    
+    <body>
+        <div class="container">
+            <header>
+                <h1>The Uncommitted</h1>
+                <nav>
+                    <ul>
+                        <li><a href="{% url 'home' %}">Home</a></li>
+                        <li><a href="{% url 'quiz_list' %}">Quizzes</a></li>
+                        
+                    </ul>
+                </nav>
+            </header>
+
+            {% block content %}
+            {% endblock %}
+
+            <footer>
+                <p>&copy; 2023 Quiz Application</p>
+            </footer>
+        </div>    
+        {% block corejs %}
+            <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+            <script src="{% static 'js/scripts.js' %}"></script>
+        {% endblock %}
+        {% block extra_js %}{% endblock %}
+    </body>
+</html>
