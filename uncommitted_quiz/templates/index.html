@@ -1,37 +1,40 @@
 {% extends "base.html" %}
- {% load static %} 
- 
- {% block title %}The Uncommitted Quiz{% endblock %}
+{% load static %}
+
+{% block title %}The Uncommitted Quiz{% endblock %}
 
 {% block content %}
-    <h1>The Uncommitted Quiz</h1>
-    <p>Do you have imposter syndrome?</p>
-    <p>Take this quiz to find out.</p>
-    <button id="startQuiz">START QUIZ</button>
-    <div id="continueQuiz" style="display: none;">
-        <p>You already have a quiz in progress.</p>
-        <button id="continueButton">Continue Quiz</button>
+<div class="quiz-hero">
+    <div class="quiz-text">
+        <h1>Do you have imposter<br>syndrome?</h1>
+        <p>Take this quiz to find out.</p>
+        <button id="startQuiz" class="primary-btn">START QUIZ</button>
     </div>
 
-    <script>
-        // Check if a quiz is in progress
-        fetch('/api/quiz/')
-            .then(response => response.json())
-            .then(data => {
-                if (data.quiz_in_progress) {
-                    document.getElementById('continueQuiz').style.display = 'block';
-                }
-            });
+    <div class="quiz-image">
+        <img src="{% static 'media/goodenough.png' %}" alt="Quiz Visual">
+    </div>
+</div>
 
-        // Start new quiz
-        document.getElementById('startQuiz').addEventListener('click', () => {
-            fetch('/api/quiz/', { method: 'GET' })
-                .then(() => window.location.href = '/quiz/');
-        });
+<div class="quiz-lower">
+    <div class="quiz-progress">
+        <h2>You already have a quiz in progress.</h2>
+        <p>Do you wish to jump back in?</p>
+        <button id="continueButton" class="secondary-btn">Continue Quiz</button>
+    </div>
 
-        // Continue existing quiz
-        document.getElementById('continueButton').addEventListener('click', () => {
-            window.location.href = '/quiz/';
-        });
-    </script>
+    <div class="quiz-scores-section">
+        <h3>Scores</h3>
+        <p>You are 100% not an imposter</p>
+        <div class="score-list">
+            <!-- This is a placeholder for the score list. In a real application, 
+            this would be dynamically generated. -->
+            <button class="score-btn">User1</button>
+            <button class="score-btn">User2</button>
+            <button class="score-btn">User3</button>
+            <button class="score-btn">User4</button>
+            <button class="score-btn">User5</button>
+        </div>
+    </div>
+</div>
 {% endblock %}

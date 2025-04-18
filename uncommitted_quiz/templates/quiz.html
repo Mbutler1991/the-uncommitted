@@ -4,14 +4,7 @@
 {% block title %}The Uncommitted Quiz{% endblock %}
 
 {% block corecss %}
-<style>
-    body { font-family: Arial, sans-serif; padding: 20px; }
-    #question { text-align: center; }
-    .answers { margin: 20px; }
-    button { margin: 10px; }
-    .answer-choice { display: block; width: 80%; margin: 10px auto; }
-    .selected { background-color:rgb(206, 128, 11); }
-</style>
+
 {% endblock %}
 
 {% block content %}
@@ -31,66 +24,5 @@
 {% endblock %}
 
 {% block postloadjs %}
-<script>
-    let currentQuestion = 1;
-    let selectedAnswer = null;
 
-    // Load question from API
-    function loadQuestion() {
-        fetch('/api/quiz/')
-            .then(response => response.json())
-            .then(data => {
-                
-                    // Update question number
-                    document.getElementById('current').textContent = data.current;
-                    
-                    // Update question text
-                    document.getElementById('questionText').textContent = data.question;
-                    
-                    // Clear previous answers
-                    const answersDiv = document.getElementById('answers');
-                    answersDiv.innerHTML = '';
-                    
-                    // Create new answer buttons
-                    data.answers.forEach((answer, index) => {
-                        const button = document.createElement('button');
-                        button.className = 'answer-choice';
-                        button.textContent = answer;
-                        button.onclick = () => handleAnswerSelect(button, index);
-                        answersDiv.appendChild(button);
-                    });
-                    
-                    // Reset next button
-                    document.getElementById('nextButton').disabled = true;
-                
-            });
-    }
-
-    function handleAnswerSelect(button, index) {
-        // Remove selection from all buttons
-        document.querySelectorAll('.answer-choice').forEach(btn => {
-            btn.classList.remove('selected');
-        });
-        
-        // Add selection to clicked button
-        button.classList.add('selected');
-        document.getElementById('nextButton').disabled = false;
-    }
-
-    // Navigation handlers
-    document.getElementById('backButton').addEventListener('click', () => {
-        if (currentQuestion > 1) {
-            currentQuestion--;
-            loadQuestion();
-        }
-    });
-
-    document.getElementById('nextButton').addEventListener('click', () => {
-        currentQuestion++;
-        loadQuestion();
-    });
-
-    // Initial load
-    loadQuestion();
-</script>
 {% endblock %}
