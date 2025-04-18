@@ -9,6 +9,7 @@
         <h1>Do you have imposter<br>syndrome?</h1>
         <p>Take this quiz to find out.</p>
         <button id="startQuiz" class="primary-btn">START QUIZ</button>
+        <div id="continueQuiz" style="display: none;"></div>
     </div>
 
 
@@ -40,6 +41,10 @@
                 .then(() => window.location.href = '/quiz/');
         });
 
+        document.getElementById('continueButton').addEventListener('click', () => {
+            window.location.href = '/quiz/';
+        });
+    </script>
 
     <div class="quiz-scores-section">
         <h3>Scores</h3>

@@ -28,8 +28,10 @@
                         <h1>The Uncommitted Quiz</h1>
                     </div>
                     <nav class="top-nav">
-                        <a href="">Home</a>
-                        <a href="">About</a>
+                        <ul>
+                            <li><a href="{% url 'home' %}">Home</a></li>
+                            <li><a href="{% url 'quiz' %}">Quizzes</a></li>
+                        </ul>
                     </nav>
                 </div>
             </header>
