@@ -1,52 +1,57 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        {% block meta   %}
-            <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-            <meta http-equiv="X-UA-Compatible" content="IE=edge">
-            <meta charset="UTF-8">
-            <meta name="description" content="The Uncommitted Quiz Application">
-            <meta name="keywords" content="quiz, application, django, web development">
-            <meta name="author" content="2504-hackathon-team5">
-            <meta name="robots" content="index, follow">
-        {% endblock %}
-    
-        {% block corecss %}
-        <style>
-            body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
-            button { padding: 10px 20px; margin: 10px; cursor: pointer; }
-        </style>
-        {% endblock %}
-        
-        {% block extra_css %}{% endblock %} 
-        <title>{% block title %}The Uncommitted{% endblock %}</title>
-    </head>
-    
-    <body>
-        <div class="container">
-            <header>
-                <h1>The Uncommitted</h1>
-                <nav>
-                    <ul>
+<head>
+    {% block meta %}
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="description" content="The Uncommitted Quiz Application">
+        <meta name="keywords" content="quiz, imposter syndrome, django">
+        <meta name="author" content="Team 5">
+        <meta name="robots" content="index, follow">
+    {% endblock %}
 
-                        <li><a href="{% url 'index' %}">Home</a></li>
-                        <li><a href="{% url 'quiz' %}">Quizzes</a></li>
-                        
-                    </ul>
+    <title>{% block title %}The Uncommitted Quiz{% endblock %}</title>
+
+    {% block corecss %}
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    {% endblock %}
+
+    {% block extra_css %}{% endblock %}
+</head>
+
+<body>
+    <div class="container">
+        <header class="site-header">
+            <div class="header-inner">
+                <div class="logo">
+                    <a href="/" style="text-decoration: none; color: inherit;">
+                        <h1>The Uncommitted Quiz</h1>
+                    </a>
+                </div>
+                <nav class="top-nav">
+                    <a href="/">Home</a>
+                    <a href="/about/">About</a>
                 </nav>
-            </header>
+            </div>
+        </header>
 
+        <main>
             {% block content %}
             {% endblock %}
+        </main>
 
-            <footer>
-                <p>&copy; 2023 Quiz Application</p>
-            </footer>
-        </div>    
-        {% block corejs %}
-          
-        {% endblock %}
-        {% block extra_js %}{% endblock %}
-    </body>
+        <footer>
+            <p>&copy; {% now "Y" %} Uncommitted Quiz</p>
+            <p>For educational and reference purposes only</p>
+        </footer>
+    </div>
+
+    {% block corejs %}
+    <script src="{% static 'js/script.js' %}" defer></script>
+    {% endblock %}
+
+    {% block extra_js %}{% endblock %}
+</body>
 </html>

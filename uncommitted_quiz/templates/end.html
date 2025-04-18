@@ -1,19 +1,72 @@
-{% extends base.html %}
+{% extends "base.html" %}
 {% load static %}
 
-{% block title %}Quiz Completed{% endblock %}
+{% block title %}Quiz Completed | The Uncommitted Quiz{% endblock %}
 
 {% block content %}
-<h1>You're Not Alone.</h1>
-<p id="scoreMessage"></p>
-<script>
-  fetch('/api/quiz/', { method: 'POST' })
-    .then(response => response.json())
-    .then(data => {
-      document.getElementById('scoreMessage').textContent = data.message;
-    });
-</script>
+<div class="quiz-end">
+    <h1>You Are Not Alone.</h1>
+    <div class="result-container">
+        <p class="score">Your Score: {{ final_data.score }}</p>
+        <p class="message">{{ final_data.message }}</p>
+    </div>
+
+    <a href="/quiz/" class="restart-btn">Take Quiz Again</a>
+
+    <p style="margin-top: 1rem;">
+        For more information on the subject: 
+        <a href="https://impostorsyndrome.com/resources/" target="_blank" rel="noopener">
+            Imposter Syndrome Institute
+        </a>
+    </p>
+</div>
 {% endblock %}
 
+{% block extra_css %}
+<style>
+    .quiz-end {
+        text-align: center;
+        margin: 3rem auto;
+        max-width: 600px;
+        padding: 2rem;
+        background-color: #f9f9f9;
+        border-radius: 12px;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+        color: #023047;
+    }
 
-    
+    .result-container {
+        background: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        margin: 1.5rem 0;
+        box-shadow: 0 1px 6px rgba(0, 0, 0, 0.05);
+    }
+
+    .score {
+        font-size: 1.8rem;
+        font-weight: bold;
+        color: #28a745;
+    }
+
+    .message {
+        font-size: 1.2rem;
+        margin-top: 1rem;
+    }
+
+    .restart-btn {
+        display: inline-block;
+        padding: 0.75rem 1.5rem;
+        background-color: #219EBC;
+        color: white;
+        text-decoration: none;
+        border-radius: 8px;
+        font-weight: bold;
+        transition: background-color 0.3s ease;
+    }
+
+    .restart-btn:hover {
+        background-color: #FB8500;
+    }
+</style>
+{% endblock %}
