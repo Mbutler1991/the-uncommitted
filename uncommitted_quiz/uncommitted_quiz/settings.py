@@ -28,7 +28,10 @@ SECRET_KEY = 'django-insecure-voj4oysooje&odyny(jej0s*f29lztn_*s9ga)_yoetszl!$%2
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'localhost',
+    "127.0.0.1",
+]
 
 
 # Application definition
@@ -42,6 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'quizapi',
     'openai',
+    'home',
     # 'rest_framework',
 ]
 
@@ -104,7 +108,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 
@@ -121,6 +124,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = 'static/'
+
+STATICFILES_DIRS = [
+    BASE_DIR / 'static',
+]
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
