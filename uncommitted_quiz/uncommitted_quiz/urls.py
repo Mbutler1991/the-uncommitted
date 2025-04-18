@@ -2,11 +2,12 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
-from quizapi.views import home  
+from quizapi.views import home, about
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', home, name='home'),  
+    path('', home, name='home'),
+    path('about/', about, name='about'),
     path('quiz/', include('quizapi.urls')),  
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

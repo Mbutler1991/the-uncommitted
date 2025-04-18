@@ -4,102 +4,22 @@
 {% block title %}The Uncommitted Quiz{% endblock %}
 
 {% block content %}
-<h1>The Uncommitted Quiz</h1>
-<div id="question">
-    <h2>Question <span id="current">1</span>/5</h2>
+<div id="question" class="quiz-wrapper">
+    <h1 class="quiz-title">The Uncommitted Quiz</h1>
+
+    <h2 class="question-header">Question <span id="current">1</span>/5</h2>
     <p id="questionText">Loading question...</p>
+
     <div class="answers" id="answers">
-        <!-- Answers will be inserted here -->
+        <!-- Answers will be dynamically inserted here -->
     </div>
+
     <div id="navigation">
-        <button id="backButton">BACK</button>
-        <button id="nextButton" disabled>NEXT</button>
+        <button id="backButton" class="quiz-btn">BACK</button>
+        <button id="nextButton" class="quiz-btn" disabled>NEXT</button>
     </div>
 </div>
+{% endblock %}
 
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    let currentQuestion = 1;
-    let selectedAnswer = null;
-    
-    function loadQuestion() {
-        console.log("Attempting to load question...");
-        
-        // Use GET for first question, POST for subsequent questions
-        const method = currentQuestion > 1 ? 'POST' : 'GET';
-        
-        fetch('/quiz/api/', {
-            method: method,
-            headers: {
-                'X-CSRFToken': '{{ csrf_token }}',
-                'Content-Type': 'application/json'
-            },
-            credentials: 'same-origin'  // Important for session cookies
-        })
-        .then(response => {
-            console.log("Received response:", response);
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log("Received data:", data);
-            
-            if (data.complete) {
-                window.location.href = '/quiz/end/';
-                return;
-            }
-            
-            // Update question display
-            document.getElementById('current').textContent = data.current;
-            document.getElementById('questionText').textContent = data.question;
-            
-            // Create answer buttons
-            const answersDiv = document.getElementById('answers');
-            answersDiv.innerHTML = '';
-            
-            data.answers.forEach((answer, index) => {
-                const button = document.createElement('button');
-                button.className = 'answer-choice';
-                button.textContent = answer;
-                button.onclick = function() {
-                    // Remove selected class from all buttons
-                    document.querySelectorAll('.answer-choice').forEach(btn => {
-                        btn.classList.remove('selected');
-                    });
-                    // Add selected class to clicked button
-                    this.classList.add('selected');
-                    selectedAnswer = index;
-                    document.getElementById('nextButton').disabled = false;
-                };
-                answersDiv.appendChild(button);
-            });
-            
-            // Reset next button
-            document.getElementById('nextButton').disabled = true;
-            selectedAnswer = null;
-        })
-        .catch(error => {
-            console.error("Error:", error);
-            document.getElementById('questionText').textContent = "Error loading question. Please refresh the page.";
-        });
-    }
-
-    // Set up event listeners
-    document.getElementById('nextButton').addEventListener('click', function() {
-        if (selectedAnswer !== null) {
-            currentQuestion++;
-            loadQuestion();
-        }
-    });
-
-    document.getElementById('backButton').addEventListener('click', function() {
-        window.location.href = '/quiz/';
-    });
-
-    // Load first question
-    loadQuestion();
-});
-</script>
+{% block extra_js %}
 {% endblock %}
