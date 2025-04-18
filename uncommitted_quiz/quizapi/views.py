@@ -43,3 +43,7 @@ def index(request):
 
 def quiz(request):
     return render(request, 'quiz.html')
+
+def end(request):
+    request.session.flush()
+    return render(request, 'end.html')

@@ -1,0 +1,19 @@
+{% extends base.html %}
+{% load static %}
+
+{% block title %}Quiz Completed{% endblock %}
+
+{% block content %}
+<h1>You're Not Alone.</h1>
+<p id="scoreMessage"></p>
+<script>
+  fetch('/api/quiz/', { method: 'POST' })
+    .then(response => response.json())
+    .then(data => {
+      document.getElementById('scoreMessage').textContent = data.message;
+    });
+</script>
+{% endblock %}
+
+
+    
