@@ -13,10 +13,7 @@
         {% endblock %}
     
         {% block corecss %}
-        <style>
-            body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
-            button { padding: 10px 20px; margin: 10px; cursor: pointer; }
-        </style>
+        <link href="{% static 'css/base.css' %}" rel="stylesheet" type="text/css">
         {% endblock %}
         
         {% block extra_css %}{% endblock %} 
@@ -25,16 +22,16 @@
     
     <body>
         <div class="container">
-            <header>
-                <h1>The Uncommitted</h1>
-                <nav>
-                    <ul>
-
-                        <li><a href="{% url 'home' %}">Home</a></li>
-                        <li><a href="{% url 'quiz' %}">Quizzes</a></li>
-                        
-                    </ul>
-                </nav>
+            <header class="site-header">
+                <div class="header-inner">
+                    <div class="logo">
+                        <h1>The Uncommitted Quiz</h1>
+                    </div>
+                    <nav class="top-nav">
+                        <a href="">Home</a>
+                        <a href="">About</a>
+                    </nav>
+                </div>
             </header>
 
             {% block content %}
@@ -46,7 +43,7 @@
             </footer>
         </div>    
         {% block corejs %}
-          
+        <script src="{% static 'js/script.js' %}" defer></script>
         {% endblock %}
         {% block extra_js %}{% endblock %}
     </body>

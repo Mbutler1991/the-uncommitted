@@ -3,6 +3,12 @@
 
 {% block title %}The Uncommitted Quiz{% endblock %}
 
+
+{% block corecss %}
+
+{% endblock %}
+
+
 {% block content %}
 <h1>The Uncommitted Quiz</h1>
 <div id="question">
@@ -17,6 +23,10 @@
     </div>
 </div>
 
+
+{% block postloadjs %}
+
+=======
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     let currentQuestion = 1;
