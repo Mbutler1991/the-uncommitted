@@ -14,6 +14,9 @@ from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+import os
+import openai
+openai.api_key = os.getenv("OPENAI_API_KEY")
 
 
 # Quick-start development settings - unsuitable for production
@@ -42,8 +45,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'quizapi',
     'openai',
-    'rest_framework',
     'home',
+    # 'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -62,7 +65,6 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [BASE_DIR / 'templates'],
-
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
