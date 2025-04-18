@@ -24,23 +24,6 @@
         <button id="continueButton" class="secondary-btn">Continue Quiz</button>
     </div>
 
-    <script>
-        // Check if a quiz is in progress
-        fetch('/quiz/api/')
-            .then(response => response.json())
-            .then(data => {
-                if (data.quiz_in_progress) {
-                    document.getElementById('continueQuiz').style.display = 'block';
-                }
-            });
-
-        // Start new quiz
-        document.getElementById('startQuiz').addEventListener('click', () => {
-            fetch('/quiz/api/', { method: 'GET' })
-                .then(() => window.location.href = '/quiz/');
-        });
-
-
     <div class="quiz-scores-section">
         <h3>Scores</h3>
         <p>You are 100% not an imposter</p>

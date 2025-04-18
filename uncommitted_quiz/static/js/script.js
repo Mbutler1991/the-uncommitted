@@ -1,99 +1,132 @@
-fetch('/api/quiz/', { method: 'POST' })
-    .then(response => response.json())
-    .then(data => {
-        document.getElementById('scoreMessage').textContent = data.message;
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        document.getElementById('scoreMessage').textContent = 'An error occurred. Please try again.';
-    });
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
 
-// Check if a quiz is in progress
-fetch('/api/quiz/')
-    .then(response => response.json())
-    .then(data => {
-        if (data.quiz_in_progress) {
-            document.getElementById('continueQuiz').style.display = 'block';
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
         }
-    });
+    }
+    return cookieValue;
+}
+const csrftoken = getCookie('csrftoken');
 
-// Start new quiz
-document.getElementById('startQuiz').addEventListener('click', () => {
-    fetch('/api/quiz/', { method: 'GET' })
-        .then(() => window.location.href = '/quiz/');
-});
+// === Quiz logic ===
+document.addEventListener('DOMContentLoaded', function () {
+    let currentQuestion = 1;
+    let selectedAnswer = null;
 
+    // Load question from API
+    function loadQuestion() {
+        console.log("Loading question", currentQuestion);
 
-fetch('/api/quiz/')
-    .then(response => response.json())
-    .then(data => {
-        if (data.quiz_in_progress) {
-            document.getElementById('continueQuiz').style.display = 'block';
-        }
-    });
+        const method = currentQuestion > 1 ? 'POST' : 'GET';
 
-// Continue existing quiz
-document.getElementById('continueButton').addEventListener('click', () => {
-    window.location.href = '/quiz/';
-});
-
-let currentQuestion = 1;
-let selectedAnswer = null;
-
-// Load question from API
-function loadQuestion() {
-    fetch('/api/quiz/')
-        .then(response => response.json())
+        fetch('/quiz/api/', {
+            method: method,
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrftoken
+            },
+            credentials: 'same-origin'
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
         .then(data => {
+            if (data.complete) {
+                window.location.href = '/quiz/end/';
+                return;
+            }
 
-            // Update question number
             document.getElementById('current').textContent = data.current;
-
-            // Update question text
             document.getElementById('questionText').textContent = data.question;
 
-            // Clear previous answers
             const answersDiv = document.getElementById('answers');
             answersDiv.innerHTML = '';
 
-            // Create new answer buttons
             data.answers.forEach((answer, index) => {
                 const button = document.createElement('button');
                 button.className = 'answer-choice';
                 button.textContent = answer;
-                button.onclick = () => handleAnswerSelect(button, index);
+                button.onclick = function () {
+                    document.querySelectorAll('.answer-choice').forEach(btn => {
+                        btn.classList.remove('selected');
+                    });
+                    this.classList.add('selected');
+                    selectedAnswer = index;
+                    document.getElementById('nextButton').disabled = false;
+                };
                 answersDiv.appendChild(button);
             });
 
-            // Reset next button
             document.getElementById('nextButton').disabled = true;
-
+            selectedAnswer = null;
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            document.getElementById('questionText').textContent = "Error loading question. Please refresh.";
         });
-}
+    }
 
-function handleAnswerSelect(button, index) {
-    // Remove selection from all buttons
-    document.querySelectorAll('.answer-choice').forEach(btn => {
-        btn.classList.remove('selected');
-    });
+    // Load current quiz progress if any
+    fetch('/api/quiz/')
+        .then(response => response.json())
+        .then(data => {
+            if (data.quiz_in_progress) {
+                const continueQuiz = document.getElementById('continueQuiz');
+                if (continueQuiz) {
+                    continueQuiz.style.display = 'block';
+                }
+            }
+        });
 
-    // Add selection to clicked button
-    button.classList.add('selected');
-    document.getElementById('nextButton').disabled = false;
-}
+    // Event listeners
+    const startButton = document.getElementById('startQuiz');
+    if (startButton) {
+        startButton.addEventListener('click', () => {
+            fetch('/api/quiz/', {
+                method: 'GET',
+                credentials: 'same-origin'
+            }).then(() => {
+                window.location.href = '/quiz/';
+            });
+        });
+    }
 
-// Navigation handlers
-document.getElementById('backButton').addEventListener('click', () => {
-    if (currentQuestion > 1) {
-        currentQuestion--;
+    const continueButton = document.getElementById('continueButton');
+    if (continueButton) {
+        continueButton.addEventListener('click', () => {
+            window.location.href = '/quiz/';
+        });
+    }
+
+    const nextButton = document.getElementById('nextButton');
+    if (nextButton) {
+        nextButton.addEventListener('click', function () {
+            if (selectedAnswer !== null) {
+
+                currentQuestion++;
+                loadQuestion();
+            }
+        });
+    }
+
+    const backButton = document.getElementById('backButton');
+    if (backButton) {
+        backButton.addEventListener('click', function () {
+            window.location.href = '/quiz/';
+        });
+    }
+
+    if (document.getElementById('questionText')) {
         loadQuestion();
     }
 });
-
-document.getElementById('nextButton').addEventListener('click', () => {
-    currentQuestion++;
-    loadQuestion();
-});
-
-// Initial load
-loadQuestion();
