@@ -26,3 +26,6 @@ def get_quiz_questions(request):
         "current": request.session['question_count'],
         "total": 5,
     })
+
+def index(request):
+    return render(request, 'index.html')
