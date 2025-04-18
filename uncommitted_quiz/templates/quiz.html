@@ -4,22 +4,19 @@
 {% block title %}The Uncommitted Quiz{% endblock %}
 
 {% block content %}
-<div id="question" class="quiz-wrapper">
-    <h1 class="quiz-title">The Uncommitted Quiz</h1>
-
-    <h2 class="question-header">Question <span id="current">1</span>/5</h2>
+<h1>The Uncommitted Quiz</h1>
+<div id="question">
+    <h2>Question <span id="current">1</span>/5</h2>
     <p id="questionText">Loading question...</p>
-
     <div class="answers" id="answers">
-        <!-- Answers will be dynamically inserted here -->
+        <!-- Answers will be inserted here -->
     </div>
-
     <div id="navigation">
-        <button id="backButton" class="quiz-btn">BACK</button>
-        <button id="nextButton" class="quiz-btn" disabled>NEXT</button>
+        <button id="backButton">BACK</button>
+        <button id="nextButton" disabled>NEXT</button>
     </div>
 </div>
-{% endblock %}
+{% endblock%}
 
-{% block extra_js %}
+{% block postloadjs %}
 {% endblock %}
