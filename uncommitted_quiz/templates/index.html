@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+ {% load static %} 
+ 
+ {% block title %}The Uncommitted Quiz{% endblock %}
+
+{% block content %}
+    <h1>The Uncommitted Quiz</h1>
+    <p>Do you have imposter syndrome?</p>
+    <p>Take this quiz to find out.</p>
+    <button id="startQuiz">START QUIZ</button>
+    <div id="continueQuiz" style="display: none;">
+        <p>You already have a quiz in progress.</p>
+        <button id="continueButton">Continue Quiz</button>
+    </div>
+
+    <script>
+        // Check if a quiz is in progress
+        fetch('/api/quiz/')
+            .then(response => response.json())
+            .then(data => {
+                if (data.quiz_in_progress) {
+                    document.getElementById('continueQuiz').style.display = 'block';
+                }
+            });
+
+        // Start new quiz
+        document.getElementById('startQuiz').addEventListener('click', () => {
+            fetch('/api/quiz/', { method: 'GET' })
+                .then(() => window.location.href = '/quiz/');
+        });
+
+        // Continue existing quiz
+        document.getElementById('continueButton').addEventListener('click', () => {
+            window.location.href = '/quiz/';
+        });
+    </script>
+{% endblock %}
