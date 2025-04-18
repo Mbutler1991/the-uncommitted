@@ -1,19 +1,53 @@
-{% extends base.html %}
+{% extends "base.html" %}
 {% load static %}
 
 {% block title %}Quiz Completed{% endblock %}
 
 {% block content %}
-<h1>You're Not Alone.</h1>
-<p id="scoreMessage"></p>
-<script>
-  fetch('/api/quiz/', { method: 'POST' })
-    .then(response => response.json())
-    .then(data => {
-      document.getElementById('scoreMessage').textContent = data.message;
-    });
-</script>
+<div class="quiz-end">
+    <h1>You Are Not Alone!</h1>
+    <div class="result-container">
+        <p class="score">Your Score: {{ final_data.score }}</p>
+        <p class="message">{{ final_data.message }}</p>
+    </div>
+    <a href="/quiz/" class="restart-btn">Take Quiz Again</a>
+    <p>For more information on the subject: <a href="https://impostorsyndrome.com/resources/" target="_blank" rel="noopener">Imposter Institute Syndrome</a></p>
+</div>
 {% endblock %}
 
-
-    
+{% block corecss %}
+<style>
+    .quiz-end {
+        text-align: center;
+        margin-top: 50px;
+    }
+    .result-container {
+        background: #f8f9fa;
+        padding: 20px;
+        border-radius: 8px;
+        margin: 20px auto;
+        max-width: 500px;
+    }
+    .score {
+        font-size: 24px;
+        font-weight: bold;
+        color: #28a745;
+    }
+    .message {
+        font-size: 18px;
+        margin-top: 15px;
+    }
+    .restart-btn {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+        margin-top: 20px;
+    }
+    .restart-btn:hover {
+        background-color: #0056b3;
+    }
+</style>
+{% endblock %}

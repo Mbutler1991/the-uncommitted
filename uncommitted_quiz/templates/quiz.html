@@ -3,94 +3,103 @@
 
 {% block title %}The Uncommitted Quiz{% endblock %}
 
-{% block corecss %}
-<style>
-    body { font-family: Arial, sans-serif; padding: 20px; }
-    #question { text-align: center; }
-    .answers { margin: 20px; }
-    button { margin: 10px; }
-    .answer-choice { display: block; width: 80%; margin: 10px auto; }
-    .selected { background-color:rgb(206, 128, 11); }
-</style>
-{% endblock %}
-
 {% block content %}
 <h1>The Uncommitted Quiz</h1>
 <div id="question">
     <h2>Question <span id="current">1</span>/5</h2>
-    <p id="questionText">
-        <!-- Question text will be inserted dynamically by JavaScript -->
-         
-    </p>
+    <p id="questionText">Loading question...</p>
     <div class="answers" id="answers">
-        <!-- Answers will be inserted dynamically by JavaScript -->
+        <!-- Answers will be inserted here -->
     </div>
-    <button id="backButton">BACK</button>
-    <button id="nextButton" disabled>NEXT</button>
+    <div id="navigation">
+        <button id="backButton">BACK</button>
+        <button id="nextButton" disabled>NEXT</button>
+    </div>
 </div>
-{% endblock %}
 
-{% block postloadjs %}
 <script>
+document.addEventListener('DOMContentLoaded', function() {
     let currentQuestion = 1;
     let selectedAnswer = null;
-
-    // Load question from API
+    
     function loadQuestion() {
-        fetch('/api/quiz/')
-            .then(response => response.json())
-            .then(data => {
-                
-                    // Update question number
-                    document.getElementById('current').textContent = data.current;
-                    
-                    // Update question text
-                    document.getElementById('questionText').textContent = data.question;
-                    
-                    // Clear previous answers
-                    const answersDiv = document.getElementById('answers');
-                    answersDiv.innerHTML = '';
-                    
-                    // Create new answer buttons
-                    data.answers.forEach((answer, index) => {
-                        const button = document.createElement('button');
-                        button.className = 'answer-choice';
-                        button.textContent = answer;
-                        button.onclick = () => handleAnswerSelect(button, index);
-                        answersDiv.appendChild(button);
-                    });
-                    
-                    // Reset next button
-                    document.getElementById('nextButton').disabled = true;
-                
-            });
-    }
-
-    function handleAnswerSelect(button, index) {
-        // Remove selection from all buttons
-        document.querySelectorAll('.answer-choice').forEach(btn => {
-            btn.classList.remove('selected');
-        });
+        console.log("Attempting to load question...");
         
-        // Add selection to clicked button
-        button.classList.add('selected');
-        document.getElementById('nextButton').disabled = false;
+        // Use GET for first question, POST for subsequent questions
+        const method = currentQuestion > 1 ? 'POST' : 'GET';
+        
+        fetch('/quiz/api/', {
+            method: method,
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}',
+                'Content-Type': 'application/json'
+            },
+            credentials: 'same-origin'  // Important for session cookies
+        })
+        .then(response => {
+            console.log("Received response:", response);
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log("Received data:", data);
+            
+            if (data.complete) {
+                window.location.href = '/quiz/end/';
+                return;
+            }
+            
+            // Update question display
+            document.getElementById('current').textContent = data.current;
+            document.getElementById('questionText').textContent = data.question;
+            
+            // Create answer buttons
+            const answersDiv = document.getElementById('answers');
+            answersDiv.innerHTML = '';
+            
+            data.answers.forEach((answer, index) => {
+                const button = document.createElement('button');
+                button.className = 'answer-choice';
+                button.textContent = answer;
+                button.onclick = function() {
+                    // Remove selected class from all buttons
+                    document.querySelectorAll('.answer-choice').forEach(btn => {
+                        btn.classList.remove('selected');
+                    });
+                    // Add selected class to clicked button
+                    this.classList.add('selected');
+                    selectedAnswer = index;
+                    document.getElementById('nextButton').disabled = false;
+                };
+                answersDiv.appendChild(button);
+            });
+            
+            // Reset next button
+            document.getElementById('nextButton').disabled = true;
+            selectedAnswer = null;
+        })
+        .catch(error => {
+            console.error("Error:", error);
+            document.getElementById('questionText').textContent = "Error loading question. Please refresh the page.";
+        });
     }
 
-    // Navigation handlers
-    document.getElementById('backButton').addEventListener('click', () => {
-        if (currentQuestion > 1) {
-            currentQuestion--;
+    // Set up event listeners
+    document.getElementById('nextButton').addEventListener('click', function() {
+        if (selectedAnswer !== null) {
+            currentQuestion++;
             loadQuestion();
         }
     });
 
-    document.getElementById('nextButton').addEventListener('click', () => {
-        currentQuestion++;
-        loadQuestion();
+    document.getElementById('backButton').addEventListener('click', function() {
+        window.location.href = '/quiz/';
     });
 
-    // Initial load
+    // Load first question
     loadQuestion();
+});
 </script>
 {% endblock %}

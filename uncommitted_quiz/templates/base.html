@@ -30,7 +30,7 @@
                 <nav>
                     <ul>
 
-                        <li><a href="{% url 'index' %}">Home</a></li>
+                        <li><a href="{% url 'home' %}">Home</a></li>
                         <li><a href="{% url 'quiz' %}">Quizzes</a></li>
                         
                     </ul>
@@ -41,7 +41,8 @@
             {% endblock %}
 
             <footer>
-                <p>&copy; 2023 Quiz Application</p>
+                <p>&copy; {% now "Y" %} Uncommitted Quiz</p>
+                <p>For educational and reference purposes only</p>
             </footer>
         </div>    
         {% block corejs %}
