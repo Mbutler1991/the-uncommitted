@@ -1,11 +1,8 @@
-from django.contrib import admin
 from django.urls import path
-from quizapi.views import get_quiz_questions, index, quiz, end
-from django.conf import settings
+from quizapi.views import get_quiz_questions, quiz_view, end_view
 
 urlpatterns = [
-    path('', index, name='index'),
-    path('quiz/', quiz, name='quiz'),
-    path('api/quiz/', get_quiz_questions, name='get_quiz_questions'),
-    path('end/', end, name='end'),
+    path('', quiz_view, name='quiz'),  # /quiz/
+    path('api/', get_quiz_questions, name='quiz_api'),  # /quiz/api/
+    path('end/', end_view, name='quiz_end'),  # /quiz/end/
 ]

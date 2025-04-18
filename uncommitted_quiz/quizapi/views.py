@@ -2,21 +2,31 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from .utils import gen_quiz_question
 
-def get_quiz_questions(request):
-    if request.method == 'GET':
-        # Check quiz progress status for home page
-        in_progress = request.session.get('question_count', 0) > 0
-        return JsonResponse({
-            'quiz_in_progress': in_progress,
-            'total_questions': 5,
-            'current_progress': request.session.get('question_count', 0)
-        })
+def home(request):
+    """Home page view"""
+    return render(request, 'index.html')
 
-    # Handle quiz progression
+def quiz_view(request):
+    """Quiz page view"""
+    return render(request, 'quiz.html')
+
+def end_view(request):
+    # Get the final score from session or API
+    final_data = {
+        "score": "100%",
+        "message": "You scored 100% because being willing to try makes you a coder"
+    }
+    return render(request, 'end.html', {'final_data': final_data})
+
+
+def get_quiz_questions(request):
+    # Initialize session if needed
     if 'quiz_questions' not in request.session:
         request.session['quiz_questions'] = []
         request.session['question_count'] = 0
+        request.session.modified = True
 
+    # Check if quiz is complete
     if request.session['question_count'] >= 5:
         request.session.flush()
         return JsonResponse({
@@ -25,6 +35,33 @@ def get_quiz_questions(request):
             "message": "You scored 100% because being willing to try makes you a coder",
         })
 
+    # For GET requests, return current question or first question if none
+    if request.method == 'GET':
+        if request.session['question_count'] > 0:
+            # Return the current/last question
+            current_question = request.session['quiz_questions'][-1]
+            return JsonResponse({
+                "complete": False,
+                "question": current_question['question'],
+                "answers": current_question['answers'],
+                "current": request.session['question_count'],
+                "total": 5,
+            })
+        else:
+            # Generate and return first question
+            question = gen_quiz_question()
+            request.session['quiz_questions'].append(question)
+            request.session['question_count'] += 1
+            request.session.modified = True
+            return JsonResponse({
+                "complete": False,
+                "question": question['question'],
+                "answers": question['answers'],
+                "current": request.session['question_count'],
+                "total": 5,
+            })
+
+    # For POST requests, generate and return next question
     question = gen_quiz_question()
     request.session['quiz_questions'].append(question)
     request.session['question_count'] += 1
@@ -37,13 +74,3 @@ def get_quiz_questions(request):
         "current": request.session['question_count'],
         "total": 5,
     })
-
-def index(request):
-    return render(request, 'index.html')
-
-def quiz(request):
-    return render(request, 'quiz.html')
-
-def end(request):
-    request.session.flush()
-    return render(request, 'end.html')

@@ -11,6 +11,7 @@
         <button id="startQuiz" class="primary-btn">START QUIZ</button>
     </div>
 
+
     <div class="quiz-image">
         <img src="{% static 'media/goodenough.png' %}" alt="Quiz Visual">
     </div>
@@ -22,6 +23,23 @@
         <p>Do you wish to jump back in?</p>
         <button id="continueButton" class="secondary-btn">Continue Quiz</button>
     </div>
+
+    <script>
+        // Check if a quiz is in progress
+        fetch('/quiz/api/')
+            .then(response => response.json())
+            .then(data => {
+                if (data.quiz_in_progress) {
+                    document.getElementById('continueQuiz').style.display = 'block';
+                }
+            });
+
+        // Start new quiz
+        document.getElementById('startQuiz').addEventListener('click', () => {
+            fetch('/quiz/api/', { method: 'GET' })
+                .then(() => window.location.href = '/quiz/');
+        });
+
 
     <div class="quiz-scores-section">
         <h3>Scores</h3>
