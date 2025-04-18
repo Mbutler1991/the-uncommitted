@@ -15,7 +15,7 @@
 
     <script>
         // Check if a quiz is in progress
-        fetch('/api/quiz/')
+        fetch('/quiz/api/')
             .then(response => response.json())
             .then(data => {
                 if (data.quiz_in_progress) {
@@ -25,7 +25,7 @@
 
         // Start new quiz
         document.getElementById('startQuiz').addEventListener('click', () => {
-            fetch('/api/quiz/', { method: 'GET' })
+            fetch('/quiz/api/', { method: 'GET' })
                 .then(() => window.location.href = '/quiz/');
         });
 
