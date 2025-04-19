@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import JsonResponse
 from .utils import gen_quiz_question
+from django.views.decorators.csrf import csrf_exempt
 
 
 def home(request):
@@ -27,6 +28,7 @@ def end_view(request):
     return render(request, 'end.html', {'final_data': final_data})
 
 
+@csrf_exempt
 def get_quiz_questions(request):
     # Initialize session if needed
     if 'quiz_questions' not in request.session:
