@@ -77,7 +77,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // Load current quiz progress if any
-    fetch('/api/quiz/')
+    fetch('/quiz/api/')
         .then(response => response.json())
         .then(data => {
             if (data.quiz_in_progress) {
@@ -92,7 +92,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const startButton = document.getElementById('startQuiz');
     if (startButton) {
         startButton.addEventListener('click', () => {
-            fetch('/api/quiz/', {
+            fetch('/quiz/api/', {
                 method: 'GET',
                 credentials: 'same-origin'
             }).then(() => {
