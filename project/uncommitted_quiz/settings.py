@@ -37,7 +37,18 @@ ALLOWED_HOSTS = [
 ]
 
 
-# Application definition
+CSRF_TRUSTED_ORIGINS = [
+    'https://uncommitted-quiz-1141a858de24.herokuapp.com',
+    'http://localhost:8000',  # For local development
+]
+
+CORS_ALLOWED_ORIGINS = [
+    'https://uncommitted-quiz-1141a858de24.herokuapp.com',
+    'http://localhost:8000',
+]
+
+CSRF_COOKIE_SECURE = True  
+SESSION_COOKIE_SECURE = True 
 
 INSTALLED_APPS = [
     "django.contrib.admin",
