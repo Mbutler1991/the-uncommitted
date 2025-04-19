@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'quizapi',
+    'project/quizapi',
     'openai',
     'home',
     # 'rest_framework',
