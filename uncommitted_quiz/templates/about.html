@@ -1,10 +1,97 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}About | The Uncommitted Quiz{% endblock %}
+{% block title %}About Us - The Uncommitted{% endblock %}
+
+{% block corecss %}
+<link rel="stylesheet" href="{% static 'css/base.css' %}">
+<!-- Load Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+    .about-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 40px;
+        padding: 20px;
+    }
+
+    .member-card {
+        width: 250px;
+        text-align: center;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+        background-color: #fff;
+    }
+
+    .member-card img {
+        width: 100%;
+        height: auto;
+        object-fit: cover;
+    }
+
+    .member-info {
+        padding: 15px;
+    }
+
+    .member-info h3 {
+        margin: 10px 0 5px;
+    }
+
+    .member-info p {
+        margin-bottom: 10px;
+        color: #333;
+    }
+
+    .github-icon {
+        font-size: 1.5rem;
+        color: #24292e;
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
+
+    .github-icon:hover {
+        color: #0366d6;
+    }
+</style>
+{% endblock %}
 
 {% block content %}
-    <div class="about-section">
-        <h2>This is the about page for the developers of the application.</h2>
+<h1>Meet the Team</h1>
+<div class="about-container">
+    <div class="member-card">
+        <img src="{% static 'media/teammembers/mark-butler.jpg' %}" alt="Mark Butler">
+        <div class="member-info">
+            <h3>Mark Butler</h3>
+            <p>Backend wizard and database architect.</p>
+            <a class="github-icon" href="https://github.com/Mbutler1991" target="_blank"><i class="fab fa-github"></i></a>
+        </div>
     </div>
+    <div class="member-card">
+        <img src="{% static 'media/teammembers/jawahir-abdul-bari.png' %}" alt="Jawahir Abdul Bari">
+        <div class="member-info">
+            <h3>Jawahir Abdul Bari</h3>
+            <p>Frontend queen.</p>
+            <a class="github-icon" href="https://github.com/Jawahir01" target="_blank"><i class="fab fa-github"></i></a>
+        </div>
+    </div>
+    <div class="member-card">
+        <img src="{% static 'media/teammembers/mirjane-cale.png' %}" alt="Mirjane Cale">
+        <div class="member-info">
+            <h3>Mirjane Cale</h3>
+            <p>The artist.</p>
+            <a class="github-icon" href="https://github.com/mirjanacale" target="_blank"><i class="fab fa-github"></i></a>
+        </div>
+    </div>
+    <div class="member-card">
+        <img src="{% static 'media/teammembers/ojarvey-lowman.jpg' %}" alt="Ojarvey Lowman">
+        <div class="member-info">
+            <h3>Ojarvey Lowman</h3>
+            <p>Brings the vibes and creativity to the team.</p>
+            <a class="github-icon" href="https://github.com/OJarvey" target="_blank"><i class="fab fa-github"></i></a>
+        </div>
+    </div>
+</div>
 {% endblock %}
