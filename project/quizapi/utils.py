@@ -34,24 +34,32 @@ Prompt = (
 client = OpenAI(api_key=OPENAI_API_KEY)
 
 
-def gen_quiz_question():
-    response = client.chat.completions.create(
-        model="gpt-4o-mini",
-        messages=[{"role": "user", "content": Prompt}],
-        temperature=0.7,
-    )
-    content = response.choices[0].message.content
+def gen_quiz_question(used_questions=None):
+    if used_questions is None:
+        used_questions = []
+    max_attempts = 5
+    for i in range(max_attempts):
 
-    content = re.sub(
-        r"^```(?:json)?|```$",
-        "",
-        content.strip(),
-        flags=re.MULTILINE,
-    ).strip()
+        response = client.chat.completions.create(
+            model="gpt-4o-mini",
+            messages=[{"role": "user", "content": Prompt}],
+            temperature=0.7,
+        )
+        content = response.choices[0].message.content
 
-    try:
-        return json.loads(content)
-    except json.JSONDecodeError:
+        content = re.sub(
+            r"^```(?:json)?|```$",
+            "",
+            content.strip(),
+            flags=re.MULTILINE,
+        ).strip()
+
+        try:
+            question_data = json.loads(content)
+            if question_data["question"] not in used_questions:
+                return question_data
+        except json.JSONDecodeError:
+            pass
         return {
             "question": "You're awesome and capable!",
             "answers": [
