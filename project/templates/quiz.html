@@ -1,21 +1,101 @@
 {% extends "base.html" %}
 {% load static %}
 
+{% block head %}
+<!-- Preload model-viewer component -->
+<link rel="preload" href="https://unpkg.com/@google/model-viewer@^2.1.1/dist/model-viewer.min.js" as="script">
+{% endblock %}
+
 {% block title %}The Uncommitted Quiz{% endblock %}
 
 {% block content %}
-<div id="question">
-    <h2>Question <span id="current">1</span>/5</h2>
-    <p id="questionText">Loading question...</p>
-    <div class="answers" id="answers">
-        <!-- Answers will be inserted here -->
+<div class="quiz-wrapper">
+    <!-- Quiz Section - Completely unchanged from your original -->
+    <div id="question">
+        <h2>Question <span id="current">1</span>/5</h2>
+        <p id="questionText">Loading question...</p>
+        <div class="answers" id="answers">
+            <!-- Answers will be inserted here by script.js -->
+        </div>
+        <div id="navigation">
+            <button id="backButton" class="btn">BACK</button>
+            <button id="nextButton" class="btn" disabled>NEXT</button>
+        </div>
     </div>
-    <div id="navigation">
-        <button id="backButton">BACK</button>
-        <button id="nextButton" disabled>NEXT</button>
+
+    <!-- 3D Model Viewer Section - New Addition -->
+    <div class="model-viewer-wrapper">
+        <model-viewer
+            id="oni-model"
+            src="{% static 'models/the_oni_demon_mask.glb' %}"
+            alt="The Oni Imposter Coder"
+            auto-rotate
+            auto-rotate-delay="1000"
+            camera-controls
+            touch-action="pan-y"
+            ar
+            ar-modes="webxr scene-viewer quick-look"
+            environment-image="neutral"
+            exposure="0.8"
+            shadow-intensity="1.2"
+            loading="eager"
+            reveal="auto"
+            style="width: 100%; height: 400px;">
+
+
+            <!-- Error State -->
+            <div class="error-overlay" slot="error">
+                <p>⚠️ Couldn't load 3D model</p>
+                <button class="retry-btn" onclick="reloadModel()">Retry</button>
+                <p class="small-text">Or try <a href="{% static 'models/the_oni_demon_mask.glb' %}" download>downloading the model</a></p>
+            </div>
+
+            <!-- AR Button Customization -->
+        </model-viewer>
+        <p class="model-instructions">Drag to rotate | Scroll to zoom</p>
     </div>
 </div>
-{% endblock%}
+{% endblock %}
+
+{% block css %}
+<style>
+/* Quiz Styles (your original styles) */
+
+</style>
+{% endblock %}
 
 {% block postloadjs %}
+<!-- Your original script.js is loaded first -->
+<script src="{% static 'js/script.js' %}"></script>
+
+<!-- Model viewer initialization -->
+<script type="module">
+// Load model-viewer if not already available
+if (typeof window.ModelViewerElement === 'undefined') {
+    const script = document.createElement('script');
+    script.type = 'module';
+    script.src = 'https://unpkg.com/@google/model-viewer@^2.1.1/dist/model-viewer.min.js';
+    document.head.appendChild(script);
+}
+
+// Model viewer helper functions
+function reloadModel() {
+    const model = document.getElementById('oni-model');
+    if (model) {
+        model.src = model.src; // Triggers reload
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const model = document.getElementById('oni-model');
+    if (model) {
+        model.addEventListener('error', (event) => {
+            console.error('3D Model Error:', event.detail);
+        });
+        model.addEventListener('load', () => {
+            console.log('3D Model loaded successfully');
+        });
+    }
+});
+</script>
 {% endblock %}
