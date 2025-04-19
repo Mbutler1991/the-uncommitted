@@ -34,46 +34,46 @@ document.addEventListener('DOMContentLoaded', function () {
             },
             credentials: 'same-origin'
         })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(data => {
-            if (data.complete) {
-                window.location.href = '/quiz/end/';
-                return;
-            }
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.complete) {
+                    window.location.href = '/quiz/end/';
+                    return;
+                }
 
-            document.getElementById('current').textContent = data.current;
-            document.getElementById('questionText').textContent = data.question;
+                document.getElementById('current').textContent = data.current;
+                document.getElementById('questionText').textContent = data.question;
 
-            const answersDiv = document.getElementById('answers');
-            answersDiv.innerHTML = '';
+                const answersDiv = document.getElementById('answers');
+                answersDiv.innerHTML = '';
 
-            data.answers.forEach((answer, index) => {
-                const button = document.createElement('button');
-                button.className = 'answer-choice';
-                button.textContent = answer;
-                button.onclick = function () {
-                    document.querySelectorAll('.answer-choice').forEach(btn => {
-                        btn.classList.remove('selected');
-                    });
-                    this.classList.add('selected');
-                    selectedAnswer = index;
-                    document.getElementById('nextButton').disabled = false;
-                };
-                answersDiv.appendChild(button);
+                data.answers.forEach((answer, index) => {
+                    const button = document.createElement('button');
+                    button.className = 'answer-choice';
+                    button.textContent = answer;
+                    button.onclick = function () {
+                        document.querySelectorAll('.answer-choice').forEach(btn => {
+                            btn.classList.remove('selected');
+                        });
+                        this.classList.add('selected');
+                        selectedAnswer = index;
+                        document.getElementById('nextButton').disabled = false;
+                    };
+                    answersDiv.appendChild(button);
+                });
+
+                document.getElementById('nextButton').disabled = true;
+                selectedAnswer = null;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('questionText').textContent = "Error loading question. Please refresh.";
             });
-
-            document.getElementById('nextButton').disabled = true;
-            selectedAnswer = null;
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            document.getElementById('questionText').textContent = "Error loading question. Please refresh.";
-        });
     }
 
     // Load current quiz progress if any
@@ -128,5 +128,18 @@ document.addEventListener('DOMContentLoaded', function () {
 
     if (document.getElementById('questionText')) {
         loadQuestion();
+    }
+});
+
+// Hamburger menu functionality
+document.addEventListener('DOMContentLoaded', function () {
+    const hamburger = document.getElementById('hamburger-menu');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    if (hamburger && mobileMenu) {
+        hamburger.addEventListener('click', function () {
+            this.classList.toggle('open');
+            mobileMenu.classList.toggle('open');
+        });
     }
 });
