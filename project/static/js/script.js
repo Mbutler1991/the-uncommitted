@@ -1,3 +1,4 @@
+/* jshint esversion: 6 */
 function getCookie(name) {
     let cookieValue = null;
     if (document.cookie && document.cookie !== '') {
