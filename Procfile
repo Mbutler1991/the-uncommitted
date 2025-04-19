@@ -1,2 +1,2 @@
-web: gunicorn uncommitted_quiz.uncommitted_quiz.wsgi --log-file -
+web: gunicorn project.uncommitted_quiz.wsgi --log-file -
 
