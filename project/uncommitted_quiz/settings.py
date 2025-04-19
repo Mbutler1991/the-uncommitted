@@ -31,7 +31,7 @@ DEBUG = True
 ALLOWED_HOSTS = [
     'localhost',
     "127.0.0.1",
-    "https://uncommitted-quiz-1141a858de24.herokuapp.com"
+    "uncommitted-quiz-1141a858de24.herokuapp.com"
 ]
 
 
