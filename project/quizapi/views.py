@@ -2,22 +2,27 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from .utils import gen_quiz_question
 
+
 def home(request):
     """Home page view"""
     return render(request, 'index.html')
 
+
 def about(request):
     return render(request, 'about.html')
+
 
 def quiz_view(request):
     """Quiz page view"""
     return render(request, 'quiz.html')
 
+
 def end_view(request):
     # Get the final score from session or API
     final_data = {
         "score": "100%",
-        "message": "You scored 100% because being willing to try makes you a coder"
+        "message":
+            "You scored 100% because being willing to try makes you a coder"
     }
     return render(request, 'end.html', {'final_data': final_data})
 
@@ -35,7 +40,8 @@ def get_quiz_questions(request):
         return JsonResponse({
             "complete": True,
             "score": "100%",
-            "message": "You scored 100% because being willing to try makes you a coder",
+            "message":
+            "You scored 100% because being willing to try makes you a coder",
         })
 
     # For GET requests, return current question or first question if none
