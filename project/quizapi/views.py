@@ -60,7 +60,8 @@ def get_quiz_questions(request):
             })
         else:
             # Generate and return first question
-            question = gen_quiz_question()
+            used_questions = [q["question"] for q in request.session['quiz_questions']]
+            question = gen_quiz_question(used_questions)
             request.session['quiz_questions'].append(question)
             request.session['question_count'] += 1
             request.session.modified = True
@@ -73,7 +74,8 @@ def get_quiz_questions(request):
             })
 
     # For POST requests, generate and return next question
-    question = gen_quiz_question()
+    used_questions = [q["question"] for q in request.session['quiz_questions']]
+    question = gen_quiz_question(used_questions)
     request.session['quiz_questions'].append(question)
     request.session['question_count'] += 1
     request.session.modified = True
@@ -85,3 +87,4 @@ def get_quiz_questions(request):
         "current": request.session['question_count'],
         "total": 5,
     })
+
