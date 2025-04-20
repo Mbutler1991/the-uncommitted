@@ -11,6 +11,16 @@
         <p class="message">{{ final_data.message }}</p>
     </div>
 
+    <div class="name-submission">
+        <h3>Save your score</h3>
+        <div class="input-group">
+            <input type="text" id="user-name" placeholder="Enter your name" maxlength="20">
+            <button id="submit-score" class="submit-btn">Submit</button>
+        </div>
+        <button id="submit-anonymous" class="anonymous-btn">Submit as Anonymous</button>
+        <p id="submission-message" class="submission-message"></p>
+    </div>
+
     <a href="/quiz/" class="restart-btn">Take Quiz Again</a>
 
     <p style="margin-top: 1rem;">
@@ -22,51 +32,6 @@
 </div>
 {% endblock %}
 
-{% block extra_css %}
-<style>
-    .quiz-end {
-        text-align: center;
-        margin: 3rem auto;
-        max-width: 600px;
-        padding: 2rem;
-        background-color: #f9f9f9;
-        border-radius: 12px;
-        box-shadow: 0 2px 12px rgba(0,0,0,0.1);
-        color: #023047;
-    }
-
-    .result-container {
-        background: #fff;
-        padding: 20px;
-        border-radius: 8px;
-        margin: 1.5rem 0;
-        box-shadow: 0 1px 6px rgba(0, 0, 0, 0.05);
-    }
-
-    .score {
-        font-size: 1.8rem;
-        font-weight: bold;
-        color: #28a745;
-    }
-
-    .message {
-        font-size: 1.2rem;
-        margin-top: 1rem;
-    }
-
-    .restart-btn {
-        display: inline-block;
-        padding: 0.75rem 1.5rem;
-        background-color: #219EBC;
-        color: white;
-        text-decoration: none;
-        border-radius: 8px;
-        font-weight: bold;
-        transition: background-color 0.3s ease;
-    }
-
-    .restart-btn:hover {
-        background-color: #FB8500;
-    }
-</style>
+{% block extra_js %}
+{{ final_data.score|default:0|json_script:"finalScore" }}
 {% endblock %}

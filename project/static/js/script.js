@@ -1,3 +1,5 @@
+/* jshint esversion: 6 */
+
 function getCookie(name) {
     let cookieValue = null;
     if (document.cookie && document.cookie !== '') {
@@ -188,3 +190,100 @@ function setupEventListeners() {
 
 // Initialize non-quiz specific listeners
 document.addEventListener('DOMContentLoaded', setupEventListeners);
+
+// This section handles the score submission to local storage
+document.addEventListener('DOMContentLoaded', function() {
+    const submitButton = document.getElementById('submit-score');
+    const anonymousButton = document.getElementById('submit-anonymous');
+    const userNameInput = document.getElementById('user-name');
+    const submissionMessage = document.getElementById('submission-message');
+    const score = JSON.parse(document.getElementById('finalScore').textContent);
+
+    // Submit with name
+    submitButton.addEventListener('click', function() {
+        const userName = userNameInput.value.trim();
+        if (userName === '') {
+            submissionMessage.textContent = 'Please enter a name';
+            submissionMessage.style.color = '#dc3545';
+            return;
+        }
+        saveScore(userName, score);
+    });
+
+    // Submit as anonymous
+    anonymousButton.addEventListener('click', function() {
+        saveScore('Anonymous', score);
+    });
+
+    function saveScore(name, score) {
+        let scores = JSON.parse(localStorage.getItem('quizScores')) || [];
+        
+        scores.push({
+            name: name,
+            score: score,
+            date: new Date().toISOString()
+        });
+        
+        scores.sort((a, b) => b.score - a.score);
+        localStorage.setItem('quizScores', JSON.stringify(scores));
+
+        submissionMessage.textContent = 'Score saved successfully!';
+        submissionMessage.style.color = '#28a745';
+        submitButton.disabled = true;
+        anonymousButton.disabled = true;
+        userNameInput.disabled = true;
+    }
+});
+
+// This section handles the scoreboard display
+document.addEventListener('DOMContentLoaded', function () {
+    const scoreList = document.getElementById('scoreList');
+    const scores = JSON.parse(localStorage.getItem('quizScores')) || [];
+
+    // Sort by newest first
+    scores.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+    if (scores.length === 0) {
+        scoreList.innerHTML = '<p>No scores yet.</p>';
+        return;
+    }
+
+    const extraScores = [];
+
+    scores.forEach((entry, index) => {
+        const btn = document.createElement('button');
+        btn.className = 'score-btn';
+        btn.textContent = `${entry.name} - ${entry.score}`;
+
+        if (index >= 5) {
+            btn.style.display = 'none';
+            btn.classList.add('extra-score');
+            extraScores.push(btn);
+        }
+
+        scoreList.appendChild(btn);
+    });
+
+    console.log("Extra scores count:", extraScores.length);
+
+    if (extraScores.length > 0) {
+        const toggleBtn = document.createElement('button');
+        toggleBtn.className = 'secondary-btn';
+        toggleBtn.textContent = 'Show More';
+        toggleBtn.style.marginTop = '10px';
+        toggleBtn.style.display = 'block';
+
+        toggleBtn.addEventListener('click', function () {
+            const isHidden = extraScores[0].style.display === 'none';
+
+            extraScores.forEach(btn => {
+                btn.style.display = isHidden ? 'inline-block' : 'none';
+            });
+
+            toggleBtn.textContent = isHidden ? 'Show Less' : 'Show More';
+        });
+
+        scoreList.after(toggleBtn);
+        console.log("Toggle button added");
+    }
+});
