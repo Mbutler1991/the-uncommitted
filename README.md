@@ -1,6 +1,6 @@
 # The Uncommitted
 
-![main-page](docs/images/responsive.png)
+![main-page](/the-uncommitted/documents/images/responsive.png.png)
 
 ## To Visit the Live Link
 
@@ -35,7 +35,20 @@
 ## The Surface Plane
  - ## Design
     - ### Colour Scheme
+      - ![color-cheme](/the-uncommitted/documents/images/color-scheme.png)
     - ### Typography
+      - This font stack ("Segoe UI", Tahoma, Geneva, Verdana, sans-serif) represents a cross-platform system font combination designed to ensure consistent typography across operating systems while prioritizing readability
+        - Segoe UI: Primary font for modern Windows systems (Windows 10/11, Microsoft apps)
+        - Tahoma: Fallback for older Windows systems (Windows XP/7)
+        - Geneva: macOS/Linux fallback (pre-installed on Apple systems)
+        - Verdana: Universal web-safe font (installed on 99% of devices)
+        - sans-serif: Generic fallback to the system's default sans-serif font
+      - which is ideal for:
+        - Technical documentation (clear hierarchy)
+        - Open-source projects (works across all OSes)
+        - Long-form content (prevents eye strain)
+        - Minimalist designs (avoids flashy typography)
+
     - ### Imagery
  - ## Technolgies
     - ### Languages
