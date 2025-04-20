@@ -1,6 +1,6 @@
 # 🎭 The Uncommitted
 
-![main-page](/the-uncommitted/documents/images/responsive.png.png)
+![main-page](documents/images/responsive.png.png)
 
 *To Visit the Live Link click* 👉 **[Here](https://uncommitted-quiz-1141a858de24.herokuapp.com/)**
 
@@ -29,19 +29,19 @@
      - Home Page
   - ## The Skeleton Plane
     - ### Wireframes
-      - landing page ![landing-page](/the-uncommitted/documents/images/landing-page.png)
-      - landing page mobile ![landing-page-mobile](/the-uncommitted/documents/images/landing-page-mobile.png)
-      - quiz page ![quiz-page](/the-uncommitted/documents/images/quiz-page.png)
-      -  quiz page mobile ![quiz-page-mobile](/the-uncommitted/documents/images/quiz-page-mobile.png)
-      - end of quiz ![end-of-quiz](/the-uncommitted/documents/images/end-of-quiz.png)
-      - end of quiz mobile ![endofquiz-page-mobile](/the-uncommitted/documents/images/endofquiz-page-mobile.png)
+      - landing page ![landing-page](documents/images/landing-page.png)
+      - landing page mobile ![landing-page-mobile](documents/images/landing-page-mobile.png)
+      - quiz page ![quiz-page](documents/images/quiz-page.png)
+      -  quiz page mobile ![quiz-page-mobile](documents/images/quiz-page-mobile.png)
+      - end of quiz ![end-of-quiz](documents/images/end-of-quiz.png)
+      - end of quiz mobile ![endofquiz-page-mobile](documents/images/endofquiz-page-mobile.png)
     - 
     - ### Database Design
 
 ## The Surface Plane
  - ## Design
     - ### Colour Scheme
-      - ![color-cheme](/the-uncommitted/documents/images/color-scheme.png)
+      - ![color-cheme](documents/images/color-scheme.png)
     - ### Typography
       - This font stack ("Segoe UI", Tahoma, Geneva, Verdana, sans-serif) represents a cross-platform system font combination designed to ensure consistent typography across operating systems while prioritizing readability
         - Segoe UI: Primary font for modern Windows systems (Windows 10/11, Microsoft apps)
