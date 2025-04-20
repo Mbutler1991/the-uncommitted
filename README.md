@@ -1,28 +1,27 @@
-# The Uncommitted
+# 🎭 The Uncommitted
 
 ![main-page](/the-uncommitted/documents/images/responsive.png.png)
 
-## To Visit the Live Link
+*To Visit the Live Link click* 👉 **[Here](https://uncommitted-quiz-1141a858de24.herokuapp.com/)**
 
 ## Table of Contents
 
-- [The Uncommitted](#the-uncommitted)
-  - [To Visit the Live Link](#to-visit-the-live-link)
+- [🎭 The Uncommitted](#-the-uncommitted)
   - [Table of Contents](#table-of-contents)
-- [User Experience Design(UX)](#user-experience-designux)
+- [🧑‍💻 User Experience Design(UX)](#-user-experience-designux)
   - [The-Strategy-Plane](#the-strategy-plane)
-- [The Structure Plane](#the-structure-plane)
+- [✍🏻 The Structure Plane](#-the-structure-plane)
   - [The Surface Plane](#the-surface-plane)
-- [Testing](#testing)
-- [Deployment](#deployment)
-- [Credits](#credits)
-- [Acknowledgments](#acknowledgments)
+- [📝 Testing](#-testing)
+- [🚀 Deployment](#-deployment)
+- [🌟 Credits](#-credits)
+- [💌 Acknowledgments](#-acknowledgments)
 
 
-# User Experience Design(UX)
+# 🧑‍💻 User Experience Design(UX)
   ## The-Strategy-Plane
 
-# The Structure Plane
+# ✍🏻 The Structure Plane
 
   - ## Features
      - Header
@@ -30,6 +29,13 @@
      - Home Page
   - ## The Skeleton Plane
     - ### Wireframes
+      - landing page ![landing-page](/the-uncommitted/documents/images/landing-page.png)
+      - landing page mobile ![landing-page-mobile](/the-uncommitted/documents/images/landing-page-mobile.png)
+      - quiz page ![quiz-page](/the-uncommitted/documents/images/quiz-page.png)
+      -  quiz page mobile ![quiz-page-mobile](/the-uncommitted/documents/images/quiz-page-mobile.png)
+      - end of quiz ![end-of-quiz](/the-uncommitted/documents/images/end-of-quiz.png)
+      - end of quiz mobile ![endofquiz-page-mobile](/the-uncommitted/documents/images/endofquiz-page-mobile.png)
+    - 
     - ### Database Design
 
 ## The Surface Plane
@@ -48,7 +54,6 @@
         - Open-source projects (works across all OSes)
         - Long-form content (prevents eye strain)
         - Minimalist designs (avoids flashy typography)
-
     - ### Imagery
  - ## Technolgies
     - ### Languages
@@ -56,10 +61,10 @@
     - ### Databases
     - ### Other tools
 
-# Testing
+# 📝 Testing
 
-# Deployment
+# 🚀 Deployment
 
-# Credits
+# 🌟 Credits
 
-# Acknowledgments
+# 💌 Acknowledgments
