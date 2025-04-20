@@ -4,7 +4,6 @@ function getCookie(name) {
         const cookies = document.cookie.split(';');
         for (let i = 0; i < cookies.length; i++) {
             const cookie = cookies[i].trim();
-
             if (cookie.substring(0, name.length + 1) === (name + '=')) {
                 cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
                 break;
@@ -157,7 +156,7 @@ function setupEventListeners() {
     const startButton = document.getElementById('startQuiz');
     if (startButton) {
         startButton.addEventListener('click', () => {
-            fetch('/api/quiz/', { method: 'GET', credentials: 'same-origin' })
+            fetch('/quiz/api/', { method: 'GET', credentials: 'same-origin' })
                 .then(() => window.location.href = '/quiz/');
         });
     }
