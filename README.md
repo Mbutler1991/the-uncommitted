@@ -68,3 +68,7 @@
 # 🌟 Credits
 
 # 💌 Acknowledgments
+  - [Mark Butler](https://github.com/Mbutler1991)
+  - [Ojarvey Lowman](https://github.com/OJarvey)
+  - [Mirjane Cale](https://github.com/mirjanacale)
+  - [Jawahir Abdul Bari](https://github.com/Jawahir01)
