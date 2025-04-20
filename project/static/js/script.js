@@ -1,4 +1,3 @@
-/* jshint esversion: 6 */
 function getCookie(name) {
     let cookieValue = null;
     if (document.cookie && document.cookie !== '') {
@@ -29,7 +28,7 @@ function loadModelViewer() {
         script.onload = resolve;
         script.onerror = () => {
             console.error('Failed to load model-viewer from CDN');
-            resolve(); // Still resolve to continue execution
+            resolve();
         };
         document.head.appendChild(script);
     });
@@ -52,7 +51,6 @@ function setupModelViewer() {
 
 // ===== Quiz Logic =====
 document.addEventListener('DOMContentLoaded', function () {
-    // Load model viewer first
     loadModelViewer().then(() => {
         setupModelViewer();
         initializeQuiz();
@@ -65,6 +63,10 @@ function initializeQuiz() {
 
     // Load question from API
     function loadQuestion() {
+        selectedAnswer = null;
+        const nextButton = document.getElementById('nextButton');
+        if (nextButton) nextButton.disabled = true;
+
         console.log("Loading question", currentQuestion);
         const method = currentQuestion > 1 ? 'POST' : 'GET';
 
@@ -95,8 +97,6 @@ function initializeQuiz() {
         document.getElementById('current').textContent = data.current;
         document.getElementById('questionText').textContent = data.question;
         renderAnswerButtons(data.answers);
-        document.getElementById('nextButton').disabled = true;
-        selectedAnswer = null;
     }
 
     function renderAnswerButtons(answers) {
@@ -126,6 +126,17 @@ function initializeQuiz() {
         document.getElementById('questionText').textContent = "Error loading question. Please refresh.";
     }
 
+    // Quiz control event listeners
+    const nextButton = document.getElementById('nextButton');
+    if (nextButton) {
+        nextButton.addEventListener('click', function() {
+            if (selectedAnswer !== null) {
+                currentQuestion++;
+                loadQuestion();
+            }
+        });
+    }
+
     // Load current quiz progress if any
     fetch('/quiz/api/')
         .then(response => response.json())
@@ -135,9 +146,7 @@ function initializeQuiz() {
             }
         });
 
-    // Event listeners
-    setupEventListeners();
-
+    // Initial load
     if (document.getElementById('questionText')) {
         loadQuestion();
     }
@@ -159,16 +168,6 @@ function setupEventListeners() {
         });
     }
 
-    const nextButton = document.getElementById('nextButton');
-    if (nextButton) {
-        nextButton.addEventListener('click', function () {
-            if (selectedAnswer !== null) {
-                currentQuestion++;
-                loadQuestion();
-            }
-        });
-    }
-
     const backButton = document.getElementById('backButton');
     if (backButton) {
         backButton.addEventListener('click', () => {
@@ -186,3 +185,6 @@ function setupEventListeners() {
         });
     }
 }
+
+// Initialize non-quiz specific listeners
+document.addEventListener('DOMContentLoaded', setupEventListeners);
