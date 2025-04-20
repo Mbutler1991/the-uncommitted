@@ -1,6 +1,6 @@
 # 🎭 The Uncommitted
 
-![main-page](/the-uncommitted/documents/images/responsive.png.png)
+![main-page](documents/images/responsive.png.png)
 
 *To Visit the Live Link click* 👉 **[Here](https://uncommitted-quiz-1141a858de24.herokuapp.com/)**
 
