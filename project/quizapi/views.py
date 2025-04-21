@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from .utils import gen_quiz_question
 from django.views.decorators.csrf import csrf_exempt
+import json
 
 
 def home(request):
@@ -30,61 +31,74 @@ def end_view(request):
 
 @csrf_exempt
 def get_quiz_questions(request):
-    # Initialize session if needed
+    # Initialize session variables if they don't exist
     if 'quiz_questions' not in request.session:
         request.session['quiz_questions'] = []
-        request.session['question_count'] = 0
-        request.session.modified = True
-
-    # Check if quiz is complete
-    if request.session['question_count'] >= 5:
-        request.session.flush()
-        return JsonResponse({
-            "complete": True,
-            "score": "100%",
-            "message":
-            "You scored 100% because being willing to try makes you a coder",
-        })
-
-    # For GET requests, return current question or first question if none
-    if request.method == 'GET':
-        if request.session['question_count'] > 0:
-            # Return the current/last question
-            current_question = request.session['quiz_questions'][-1]
-            return JsonResponse({
-                "complete": False,
-                "question": current_question['question'],
-                "answers": current_question['answers'],
-                "current": request.session['question_count'],
-                "total": 5,
-            })
-        else:
-            # Generate and return first question
-            used_questions = [q["question"] for q in request.session['quiz_questions']]
-            question = gen_quiz_question(used_questions)
-            request.session['quiz_questions'].append(question)
-            request.session['question_count'] += 1
-            request.session.modified = True
-            return JsonResponse({
-                "complete": False,
-                "question": question['question'],
-                "answers": question['answers'],
-                "current": request.session['question_count'],
-                "total": 5,
-            })
-
-    # For POST requests, generate and return next question
-    used_questions = [q["question"] for q in request.session['quiz_questions']]
-    question = gen_quiz_question(used_questions)
-    request.session['quiz_questions'].append(question)
-    request.session['question_count'] += 1
+    if 'current_position' not in request.session:
+        request.session['current_position'] = -1  # Start before first question
     request.session.modified = True
 
-    return JsonResponse({
-        "complete": False,
-        "question": question['question'],
-        "answers": question['answers'],
-        "current": request.session['question_count'],
-        "total": 5,
-    })
+    # Handle POST requests (next/back navigation)
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            action = data.get('action', 'next')
+            
+            if action == 'back':
+                # Move back in the question history
+                if request.session['current_position'] > 0:
+                    request.session['current_position'] -= 1
+                current_question = request.session['quiz_questions'][request.session['current_position']]
+                return JsonResponse({
+                    'question': current_question['question'],
+                    'answers': current_question['answers'],
+                    'current': request.session['current_position'] + 1,
+                    'total': 5
+                })
+            else:
+                # Handle next action
+                if request.session['current_position'] < len(request.session['quiz_questions']) - 1:
+                    # Reuse existing question
+                    request.session['current_position'] += 1
+                    current_question = request.session['quiz_questions'][request.session['current_position']]
+                else:
+                    # Generate new question
+                    used_questions = [q["question"] for q in request.session['quiz_questions']]
+                    question = gen_quiz_question(used_questions)
+                    request.session['quiz_questions'].append(question)
+                    request.session['current_position'] = len(request.session['quiz_questions']) - 1
+                
+                request.session.modified = True
+                return JsonResponse({
+                    'question': request.session['quiz_questions'][request.session['current_position']]['question'],
+                    'answers': request.session['quiz_questions'][request.session['current_position']]['answers'],
+                    'current': request.session['current_position'] + 1,
+                    'total': 5
+                })
+                
+        except Exception as e:
+            print(f"Error handling POST request: {str(e)}")
+            return JsonResponse({'error': str(e)}, status=400)
 
+    # Handle GET request (initial load)
+    if request.session['current_position'] >= 0:
+        # Return current question
+        current_question = request.session['quiz_questions'][request.session['current_position']]
+        return JsonResponse({
+            'question': current_question['question'],
+            'answers': current_question['answers'],
+            'current': request.session['current_position'] + 1,
+            'total': 5
+        })
+    else:
+        # Generate first question
+        question = gen_quiz_question([])
+        request.session['quiz_questions'].append(question)
+        request.session['current_position'] = 0
+        request.session.modified = True
+        return JsonResponse({
+            'question': question['question'],
+            'answers': question['answers'],
+            'current': 1,
+            'total': 5
+        })
