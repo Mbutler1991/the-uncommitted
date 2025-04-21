@@ -29,6 +29,10 @@ Perfect for developers feeling stuck in the "I'm not good enough" loop. Take the
   - [The Surface Plane](#the-surface-plane)
 - [📝 Testing](#-testing)
 - [🚀 Deployment](#-deployment)
+    - [Local Deployment](#local-deployment)
+      - [Cloning](#cloning)
+      - [Forking](#forking)
+    - [Local VS Deployment](#local-vs-deployment)
 - [🌟 Credits](#-credits)
 - [💌 Acknowledgments](#-acknowledgments)
 
@@ -83,7 +87,11 @@ Perfect for developers feeling stuck in the "I'm not good enough" loop. Take the
       - end of quiz 
        - ![end-of-quiz](documents/images/end-of-quiz.png)
       - end of quiz mobile 
-       - ![endofquiz-page-mobile](documents/images/endofquiz-page-mobile.png)
+        - ![endofquiz-page-mobile](documents/images/endofquiz-page-mobile.png)
+      - about page 
+        - ![about-team](documents/images/about-page.png) 
+      - about page  mobile
+        - ![about-team](documents/images/about-page-mobile.png)
 
 
 ## The Surface Plane
