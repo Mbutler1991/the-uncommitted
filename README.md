@@ -35,33 +35,56 @@ Perfect for developers feeling stuck in the "I'm not good enough" loop. Take the
 
 # 🧑‍💻 User Experience Design(UX)
   ## The-Strategy-Plane
+   🎯 Key UX Features
+        1. Anxiety-Reducing Quiz Flow
+          No Wrong Answers: All choices marked "correct" post-quiz (secret until end)
+          Zero Timer: No pressure to rush decisions
+          Progress Visualization: Subtle "Question 2/5" counter (no % metrics)
+          
+  2. 3D Model Interaction
+        Stress Relief: Draggable demon mask (symbolizing imposter syndrome)
+        Visual Metaphor: Rotating/zooming represents "viewing doubts from all angles"
+        Error Handling: Friendly retry button with emoji ⚠️ → 😊
+
+        3. Confidence-Building Microcopy
+        Affirmations: "You had it right all along" (end screen)
+
+        Neutral Labels: "Continue" instead of "Next"
+
+        Score Display: Always "100%" with personalized feedback
 
 # ✍🏻 The Structure Plane
 
   - ## Features
      - Header
-       - ![header](documents/images/features-header.png)
+      - ![header](documents/images/features-header.png)
      - Footer
-       - ![footer](documents/images/features-footer.png)
+      - ![footer](documents/images/features-footer.png)
      - Home Page
-       - ![home](documents/images/features-home.png)
+      - ![home](documents/images/features-home.png)
      - Quiz
-       - ![quiz](documents/images/features-quiz.png)
+      - ![quiz](documents/images/features-quiz.png)
      - End of quiz
-       - ![ens](documents/images/features-end.png)
+      - ![ens](documents/images/features-end.png)
      - About Page
-       - ![team](documents/images/features-about.png)
+      - ![team](documents/images/features-about.png)
 
   - ## The Skeleton Plane
     - ### Wireframes
-      - landing page ![landing-page](documents/images/landing-page.png)
-      - landing page mobile ![landing-page-mobile](documents/images/landing-page-mobile.png)
-      - quiz page ![quiz-page](documents/images/quiz-page.png)
-      -  quiz page mobile ![quiz-page-mobile](documents/images/quiz-page-mobile.png)
-      - end of quiz ![end-of-quiz](documents/images/end-of-quiz.png)
-      - end of quiz mobile ![endofquiz-page-mobile](documents/images/endofquiz-page-mobile.png)
-    - 
-    - ### Database Design
+
+     - landing page
+      - ![landing-page](documents/images/landing-page.png)
+      - landing page mobile 
+       - ![landing-page-mobile](documents/images/landing-page-mobile.png)
+      - quiz page 
+       - ![quiz-page](documents/images/quiz-page.png)
+      - quiz page mobile 
+       - ![quiz-page-mobile](documents/images/quiz-page-mobile.png)
+      - end of quiz 
+       - ![end-of-quiz](documents/images/end-of-quiz.png)
+      - end of quiz mobile 
+       - ![endofquiz-page-mobile](documents/images/endofquiz-page-mobile.png)
+
 
 ## The Surface Plane
  - ## Design
@@ -79,15 +102,54 @@ Perfect for developers feeling stuck in the "I'm not good enough" loop. Take the
         - Open-source projects (works across all OSes)
         - Long-form content (prevents eye strain)
         - Minimalist designs (avoids flashy typography)
-    - ### Imagery
+
  - ## Technolgies
     - ### Languages
-    - ### Frameworks and libraries
-    - ### Databases
+      - Django the primary language used to develop the server-side of the website.
+      -	JS: the primary language used to develop interactive components of the website.
+      -	HTML: the markup language used to create the website.
+      -	CSS: the styling language used to style the website.
+
     - ### Other tools
+      -	Git: the version control system used to manage the code.
+      -	Pip: the package manager used to install the dependencies.
+      -	GitHub: used to host the website's source code.
+      -	Chrome DevTools: was used to debug the website.
+      -	Font Awesome: was used to create the icons used on the website.
+      -	Google: was used for random photos of children and teachers.
+      -	BootStrap5: was used to create responsive elements.
 
 # 📝 Testing
   - **Manual Testing**
+    - ### Core Test Cases  
+
+| Test Case              | Steps                                                                 | Expected Result                                                                 |
+|------------------------|-----------------------------------------------------------------------|---------------------------------------------------------------------------------|
+| Complete Quiz Flow     | 1. Start quiz<br>2. Answer 5 questions<br>3. Submit score             | Always shows 100% score<br>Score appears in leaderboard                        |
+| 3D Model Interaction   | 1. Load quiz page<br>2. Rotate model<br>3. Trigger error (block CDN) | Model loads ≤3s<br>Error overlay appears<br>Retry button functional             |
+| Score Persistence      | 1. Submit as "Test User"<br>2. Refresh page<br>3. Submit anonymously  | Both entries in localStorage<br>Anonymous shows as "Anonymous"                 |
+| Cross-Device Progress  | 1. Start on desktop<br>2. Continue on mobile                         | Consistent question number<br>Session maintained via cookies                   |
+    
+   - ### 🛣️ End-to-End Testing
+     - #### Scenario 1: First-Time User Journey  
+        ✅ **Expected Flow**  
+        1. `/` → Sees "Start Quiz" as primary button  
+        2. Answers 5 questions → All marked correct (💡 Secret mechanic)  
+        3. Submits as "CodeNewbie" → Appears in leaderboard  
+        4. Returns home → "Continue Quiz" hidden  
+
+        #### Scenario 2: Progress Recovery  
+        ✅ **Expected Behavior**  
+        1. Answers Q1-3 → Closes tab  
+        2. Reopens site → Sees "Continue Quiz"  
+        3. Completes Q4-5 → Total shows "5/5"  
+        4. Leaderboard updates → Most recent first  
+
+        #### Scenario 3: Accessibility Check  
+        ♿ **Key Requirements**  
+        - Mobile menu closes on selection (✅ Pass)  
+        - Alt text for 3D model (❌ Needs improvement)  
+        - Keyboard navigation (⚠️ Partial support)  
 
   - **LightHouse**
     - *Desktop:*
@@ -107,8 +169,7 @@ Perfect for developers feeling stuck in the "I'm not good enough" loop. Take the
          - ![team](documents/images/about-lhd.png)
 
 # 🚀 Deployment
-# Deployment
-## Deployment
+
 This project utilizes [Heroku](http://heroku.com) , for deployment, allowing developers to build, run, and manage applications in the cloud.
 Follow these steps to deploy the ArtBlog on Heroku:
 
@@ -140,18 +201,6 @@ Follow these steps to deploy the ArtBlog on Heroku:
 - Once deployed successfully, your blog will be accessible via the provided Heroku URL.
 
 
-
-
-## Deployment
-
-The site was deployed to GitHub Pages. The steps to deploy are as follows:
-
-- In the [GitHub repository](), navigate to the Settings tab
-- From the source section drop-down menu, select the **Main** Branch, then click "Save".
-- The page will be automatically refreshed with a detailed ribbon display to indicate the successful deployment.
-
-The live link can be found [here]()
-
 ### Local Deployment
 
 This project can be cloned or forked in order to make a local copy on your own system.
@@ -160,13 +209,13 @@ This project can be cloned or forked in order to make a local copy on your own s
 
 You can clone the repository by following these steps:
 
-1. Go to the [GitHub repository]()
+1. Go to the [GitHub repository](https://github.com/Mbutler1991/the-uncommitted)
 2. Locate the Code button above the list of files and click it
 3. Select if you prefer to clone using HTTPS, SSH, or GitHub CLI and click the copy button to copy the URL to your clipboard
 4. Open Git Bash or Terminal
 5. Change the current working directory to the one where you want the cloned directory
 6. In your IDE Terminal, type the following command to clone my repository:
-   - ``
+   - `git clone https://github.com/Mbutler1991/the-uncommitted`
 7. Press Enter to create your local clone.
 
 Alternatively, if using Gitpod, you can click below to create your own workspace using this repository.
@@ -181,7 +230,7 @@ A tutorial on how to do that can be found [here](https://www.gitpod.io/docs/conf
 By forking the GitHub Repository, we make a copy of the original repository on our GitHub account to view and/or make changes without affecting the original owner's repository.
 You can fork this repository by using the following steps:
 
-1. Log in to GitHub and locate the [GitHub Repository]()
+1. Log in to GitHub and locate the [GitHub Repository](https://github.com/Mbutler1991/the-uncommitted)
 2. At the top of the Repository (not top of page) just above the "Settings" Button on the menu, locate the "Fork" Button.
 3. Once clicked, you should now have a copy of the original repository in your own GitHub account!
 
@@ -190,6 +239,8 @@ You can fork this repository by using the following steps:
 There are no major differences between the local (Gitpod) version and the deployed (GitHub Pages) version that I'm aware of.
 
 # 🌟 Credits
+  - [ChatGPT](https://chat.openai.com/): was used to assist with codes and to give more formal sentences for the website and README file.
+  - [Favicon.io](https://favicon.io/): was used to convert the logo image into favicon.
 
 # 💌 Acknowledgments
   - [Mark Butler](https://github.com/Mbutler1991)
