@@ -92,19 +92,19 @@ Perfect for developers feeling stuck in the "I'm not good enough" loop. Take the
   - **LightHouse**
     - *Desktop:*
        - Home Page
-         - ![home](documents/images/LHD-home.png)
+         - ![home](documents/images/home-lhd.png)
        - Quiz Page
-         - ![quiz](documents/images/LHD-quiz.png)
+         - ![quiz](documents/images/quiz-lhd.png)
        - About Page
-         - ![team](documents/images/LHD-about.png)
+         - ![team](documents/images/about-lhd.png)
 
     - *Mobile:*
       - Home Page
-         - ![home](documents/images/LHM-home.png)
+         - ![home](documents/images/home-lhm.png)
        - Quiz Page
-         - ![quiz](documents/images/LHM-quiz.png)
+         - ![quiz](documents/images/quiz-lhd.png)
        - About Page
-         - ![team](documents/images/LHM-about.png)
+         - ![team](documents/images/about-lhd.png)
 
 # 🚀 Deployment
 # Deployment
