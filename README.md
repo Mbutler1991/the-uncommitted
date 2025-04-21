@@ -116,7 +116,7 @@ Perfect for developers feeling stuck in the "I'm not good enough" loop. Take the
       -	GitHub: used to host the website's source code.
       -	Chrome DevTools: was used to debug the website.
       -	Font Awesome: was used to create the icons used on the website.
-      -	Google: was used to for random photos of children and teachers.
+      -	Google: was used for random photos of children and teachers.
       -	BootStrap5: was used to create responsive elements.
 
 # 📝 Testing
