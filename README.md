@@ -2,6 +2,21 @@
 
 ![main-page](documents/images/responsive.png.png)
 
+🧠 CodeConfident Quiz which is friendly reminder that you know more than you think!
+
+This lighthearted coding quiz tackles imposter syndrome head-on by revealing a secret at the end: every answer was correct all along. Through bite-sized programming questions, we help developers:
+
+💡 Challenge self-doubt with instant validation
+💻 Reframe mistakes as learning opportunities
+🚀 Boost confidence with positive reinforcement
+
+*"Wait... but I thought I was wrong?"* That's the point! Designed to mirror how imposter syndrome distorts our self-perception, this experience ends with a crucial reminder:
+
+✨ "You had the right answers all along - trust your coding instincts!"
+
+Perfect for developers feeling stuck in the "I'm not good enough" loop. Take the quiz, see the truth in the results, and walk away a little more confident in your skills.
+
+
 *To Visit the Live Link click* 👉 **[Here](https://uncommitted-quiz-1141a858de24.herokuapp.com/)**
 
 ## Table of Contents
@@ -25,17 +40,33 @@
 
   - ## Features
      - Header
+       - ![header](documents/images/features-header.png)
      - Footer
+       - ![footer](documents/images/features-footer.png)
      - Home Page
+       - ![home](documents/images/features-home.png)
+     - Quiz
+       - ![quiz](documents/images/features-quiz.png)
+     - End of quiz
+       - ![ens](documents/images/features-end.png)
+     - About Page
+       - ![team](documents/images/features-about.png)
+
   - ## The Skeleton Plane
     - ### Wireframes
-      - landing page ![landing-page](documents/images/landing-page.png)
-      - landing page mobile ![landing-page-mobile](documents/images/landing-page-mobile.png)
-      - quiz page ![quiz-page](documents/images/quiz-page.png)
-      -  quiz page mobile ![quiz-page-mobile](documents/images/quiz-page-mobile.png)
-      - end of quiz ![end-of-quiz](documents/images/end-of-quiz.png)
-      - end of quiz mobile ![endofquiz-page-mobile](documents/images/endofquiz-page-mobile.png)
-    - 
+      - landing page
+        - ![landing-page](documents/images/landing-page.png)
+      - landing page mobile 
+        - ![landing-page-mobile](documents/images/landing-page-mobile.png)
+      - quiz page 
+        - ![quiz-page](documents/images/quiz-page.png)
+      - quiz page mobile 
+        - ![quiz-page-mobile](documents/images/quiz-page-mobile.png)
+      - end of quiz 
+        - ![end-of-quiz](documents/images/end-of-quiz.png)
+      - end of quiz mobile 
+        - ![endofquiz-page-mobile](documents/images/endofquiz-page-mobile.png)
+
     - ### Database Design
 
 ## The Surface Plane
@@ -62,6 +93,24 @@
     - ### Other tools
 
 # 📝 Testing
+  - **Manual Testing**
+
+  - **LightHouse**
+    - *Desktop:*
+       - Home Page
+         - ![home](documents/images/LHD-home.png)
+       - Quiz Page
+         - ![quiz](documents/images/LHD-quiz.png)
+       - About Page
+         - ![team](documents/images/LHD-about.png)
+
+    - *Mobile:*
+      - Home Page
+         - ![home](documents/images/LHM-home.png)
+       - Quiz Page
+         - ![quiz](documents/images/LHM-quiz.png)
+       - About Page
+         - ![team](documents/images/LHM-about.png)
 
 # 🚀 Deployment
 
