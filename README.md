@@ -35,6 +35,27 @@ Perfect for developers feeling stuck in the "I'm not good enough" loop. Take the
 
 # 🧑‍💻 User Experience Design(UX)
   ## The-Strategy-Plane
+    🎯 Key UX Features
+        1. Anxiety-Reducing Quiz Flow
+        No Wrong Answers: All choices marked "correct" post-quiz (secret until end)
+
+        Zero Timer: No pressure to rush decisions
+
+        Progress Visualization: Subtle "Question 2/5" counter (no % metrics)
+
+        2. 3D Model Interaction
+        Stress Relief: Draggable demon mask (symbolizing imposter syndrome)
+
+        Visual Metaphor: Rotating/zooming represents "viewing doubts from all angles"
+
+        Error Handling: Friendly retry button with emoji ⚠️ → 😊
+
+        3. Confidence-Building Microcopy
+        Affirmations: "You had it right all along" (end screen)
+
+        Neutral Labels: "Continue" instead of "Next"
+
+        Score Display: Always "100%" with personalized feedback
 
 # ✍🏻 The Structure Plane
 
@@ -67,7 +88,6 @@ Perfect for developers feeling stuck in the "I'm not good enough" loop. Take the
       - end of quiz mobile 
         - ![endofquiz-page-mobile](documents/images/endofquiz-page-mobile.png)
 
-    - ### Database Design
 
 ## The Surface Plane
  - ## Design
@@ -85,15 +105,54 @@ Perfect for developers feeling stuck in the "I'm not good enough" loop. Take the
         - Open-source projects (works across all OSes)
         - Long-form content (prevents eye strain)
         - Minimalist designs (avoids flashy typography)
-    - ### Imagery
+
  - ## Technolgies
     - ### Languages
-    - ### Frameworks and libraries
-    - ### Databases
+      - Django the primary language used to develop the server-side of the website.
+      -	JS: the primary language used to develop interactive components of the website.
+      -	HTML: the markup language used to create the website.
+      -	CSS: the styling language used to style the website.
+
     - ### Other tools
+      -	Git: the version control system used to manage the code.
+      -	Pip: the package manager used to install the dependencies.
+      -	GitHub: used to host the website's source code.
+      -	Chrome DevTools: was used to debug the website.
+      -	Font Awesome: was used to create the icons used on the website.
+      -	Google: was used to for random photos of children and teachers.
+      -	BootStrap5: was used to create responsive elements.
 
 # 📝 Testing
   - **Manual Testing**
+    - ### Core Test Cases  
+
+| Test Case              | Steps                                                                 | Expected Result                                                                 |
+|------------------------|-----------------------------------------------------------------------|---------------------------------------------------------------------------------|
+| Complete Quiz Flow     | 1. Start quiz<br>2. Answer 5 questions<br>3. Submit score             | Always shows 100% score<br>Score appears in leaderboard                        |
+| 3D Model Interaction   | 1. Load quiz page<br>2. Rotate model<br>3. Trigger error (block CDN) | Model loads ≤3s<br>Error overlay appears<br>Retry button functional             |
+| Score Persistence      | 1. Submit as "Test User"<br>2. Refresh page<br>3. Submit anonymously  | Both entries in localStorage<br>Anonymous shows as "Anonymous"                 |
+| Cross-Device Progress  | 1. Start on desktop<br>2. Continue on mobile                         | Consistent question number<br>Session maintained via cookies                   |
+    
+   - ### 🛣️ End-to-End Testing
+     - #### Scenario 1: First-Time User Journey  
+        ✅ **Expected Flow**  
+        1. `/` → Sees "Start Quiz" as primary button  
+        2. Answers 5 questions → All marked correct (💡 Secret mechanic)  
+        3. Submits as "CodeNewbie" → Appears in leaderboard  
+        4. Returns home → "Continue Quiz" hidden  
+
+        #### Scenario 2: Progress Recovery  
+        ✅ **Expected Behavior**  
+        1. Answers Q1-3 → Closes tab  
+        2. Reopens site → Sees "Continue Quiz"  
+        3. Completes Q4-5 → Total shows "5/5"  
+        4. Leaderboard updates → Most recent first  
+
+        #### Scenario 3: Accessibility Check  
+        ♿ **Key Requirements**  
+        - Mobile menu closes on selection (✅ Pass)  
+        - Alt text for 3D model (❌ Needs improvement)  
+        - Keyboard navigation (⚠️ Partial support)  
 
   - **LightHouse**
     - *Desktop:*
@@ -115,6 +174,8 @@ Perfect for developers feeling stuck in the "I'm not good enough" loop. Take the
 # 🚀 Deployment
 
 # 🌟 Credits
+  - [ChatGPT](https://chat.openai.com/): was used to assist with codes and to give more formal sentences for the website and README file.
+  - [Favicon.io](https://favicon.io/): was used to convert the logo image into favicon.
 
 # 💌 Acknowledgments
   - [Mark Butler](https://github.com/Mbutler1991)
