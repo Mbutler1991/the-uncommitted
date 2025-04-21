@@ -25,17 +25,33 @@
 
   - ## Features
      - Header
+       - ![header](documents/images/features-header.png)
      - Footer
+       - ![footer](documents/images/features-footer.png)
      - Home Page
+       - ![home](documents/images/features-home.png)
+     - Quiz
+       - ![quiz](documents/images/features-quiz.png)
+     - End of quiz
+       - ![ens](documents/images/features-end.png)
+     - About Page
+       - ![team](documents/images/features-about.png)
+
   - ## The Skeleton Plane
     - ### Wireframes
-      - landing page ![landing-page](documents/images/landing-page.png)
-      - landing page mobile ![landing-page-mobile](documents/images/landing-page-mobile.png)
-      - quiz page ![quiz-page](documents/images/quiz-page.png)
-      -  quiz page mobile ![quiz-page-mobile](documents/images/quiz-page-mobile.png)
-      - end of quiz ![end-of-quiz](documents/images/end-of-quiz.png)
-      - end of quiz mobile ![endofquiz-page-mobile](documents/images/endofquiz-page-mobile.png)
-    - 
+      - landing page
+        - ![landing-page](documents/images/landing-page.png)
+      - landing page mobile 
+        - ![landing-page-mobile](documents/images/landing-page-mobile.png)
+      - quiz page 
+        - ![quiz-page](documents/images/quiz-page.png)
+      - quiz page mobile 
+        - ![quiz-page-mobile](documents/images/quiz-page-mobile.png)
+      - end of quiz 
+        - ![end-of-quiz](documents/images/end-of-quiz.png)
+      - end of quiz mobile 
+        - ![endofquiz-page-mobile](documents/images/endofquiz-page-mobile.png)
+
     - ### Database Design
 
 ## The Surface Plane
@@ -62,6 +78,24 @@
     - ### Other tools
 
 # 📝 Testing
+  - **Manual Testing**
+
+  - **LightHouse**
+    - *Desktop:*
+       - Home Page
+         - ![home](documents/images/LHD-home.png)
+       - Quiz Page
+         - ![quiz](documents/images/LHD-quiz.png)
+       - About Page
+         - ![team](documents/images/LHD-about.png)
+
+    - *Mobile:*
+      - Home Page
+         - ![home](documents/images/LHM-home.png)
+       - Quiz Page
+         - ![quiz](documents/images/LHM-quiz.png)
+       - About Page
+         - ![team](documents/images/LHM-about.png)
 
 # 🚀 Deployment
 
