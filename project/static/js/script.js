@@ -16,6 +16,11 @@ function getCookie(name) {
 }
 const csrftoken = getCookie('csrftoken');
 
+// ===== Quiz State Management =====
+const quizState = {
+    isLoading: false
+};
+
 // ===== 3D Model Viewer Setup =====
 function loadModelViewer() {
     return new Promise((resolve) => {
@@ -52,65 +57,81 @@ function setupModelViewer() {
 }
 
 // ===== Quiz Logic =====
-document.addEventListener('DOMContentLoaded', function () {
-    loadModelViewer().then(() => {
-        setupModelViewer();
-        initializeQuiz();
-    });
-});
-
 function initializeQuiz() {
-    let currentQuestion = 1;
-    let selectedAnswer = null;
+    // Cache DOM elements
+    const questionTextEl = document.getElementById('questionText');
+    const currentEl = document.getElementById('current');
+    const answersEl = document.getElementById('answers');
+    const nextButton = document.getElementById('nextButton');
+    const backButton = document.getElementById('backButton');
+    const questionContainer = document.getElementById('question');
 
-    // Load question from API
-    function loadQuestion() {
-        selectedAnswer = null;
-        const nextButton = document.getElementById('nextButton');
-        if (nextButton) nextButton.disabled = true;
-
-        console.log("Loading question", currentQuestion);
-        const method = currentQuestion > 1 ? 'POST' : 'GET';
-
-        fetch('/quiz/api/', {
-            method: method,
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRFToken': csrftoken
-            },
-            credentials: 'same-origin'
-        })
-        .then(handleResponse)
-        .then(updateQuestionUI)
-        .catch(handleQuestionError);
+    // Validate required elements
+    if (!questionTextEl || !currentEl || !answersEl || !nextButton || !backButton || !questionContainer) {
+        console.error('Missing required quiz elements');
+        return;
     }
 
-    function handleResponse(response) {
-        if (!response.ok) throw new Error('Network response was not ok');
-        return response.json();
+    // Load question from API
+    async function loadQuestion(action = 'next') {
+        if (quizState.isLoading) return;
+        
+        quizState.isLoading = true;
+        questionContainer.classList.add('loading');
+        nextButton.disabled = true;
+
+        try {
+            const response = await fetch('/quiz/api/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrftoken
+                },
+                body: JSON.stringify({
+                    action: action
+                }),
+                credentials: 'same-origin'
+            });
+
+            if (!response.ok) throw new Error('Network response was not ok');
+            const data = await response.json();
+
+            if (data.error) throw new Error(data.error);
+            if (data.complete) {
+                window.location.href = '/quiz/end/';
+                return;
+            }
+
+            // Additional check to prevent going beyond 5 questions
+            if (data.current > 5) {
+                window.location.href = '/quiz/end/';
+                return;
+            }
+
+            updateQuestionUI(data);
+        } catch (error) {
+            console.error('Error:', error);
+            questionTextEl.textContent = "Error loading question. Please refresh.";
+        } finally {
+            quizState.isLoading = false;
+            questionContainer.classList.remove('loading');
+        }
     }
 
     function updateQuestionUI(data) {
-        if (data.complete) {
-            window.location.href = '/quiz/end/';
-            return;
-        }
-
-        document.getElementById('current').textContent = data.current;
-        document.getElementById('questionText').textContent = data.question;
+        currentEl.textContent = data.current;
+        questionTextEl.textContent = data.question;
         renderAnswerButtons(data.answers);
     }
 
     function renderAnswerButtons(answers) {
-        const answersDiv = document.getElementById('answers');
-        answersDiv.innerHTML = '';
-
+        answersEl.innerHTML = '';
         answers.forEach((answer, index) => {
             const button = document.createElement('button');
             button.className = 'answer-choice';
             button.textContent = answer;
             button.onclick = () => selectAnswer(button, index);
-            answersDiv.appendChild(button);
+            answersEl.appendChild(button);
         });
     }
 
@@ -119,40 +140,22 @@ function initializeQuiz() {
             btn.classList.remove('selected');
         });
         button.classList.add('selected');
-        selectedAnswer = index;
-        document.getElementById('nextButton').disabled = false;
+        nextButton.disabled = false;
     }
 
-    function handleQuestionError(error) {
-        console.error('Error:', error);
-        document.getElementById('questionText').textContent = "Error loading question. Please refresh.";
-    }
+    // Event Listeners
+    nextButton.addEventListener('click', () => {
+        if (!quizState.isLoading) loadQuestion('next');
+    });
 
-    // Quiz control event listeners
-    const nextButton = document.getElementById('nextButton');
-    if (nextButton) {
-        nextButton.addEventListener('click', function() {
-            if (selectedAnswer !== null) {
-                currentQuestion++;
-                loadQuestion();
-            }
-        });
-    }
-
-    // Load current quiz progress if any
-    fetch('/quiz/api/')
-        .then(response => response.json())
-        .then(data => {
-            if (data.quiz_in_progress && document.getElementById('continueQuiz')) {
-                document.getElementById('continueQuiz').style.display = 'block';
-            }
-        });
+    backButton.addEventListener('click', () => {
+        if (!quizState.isLoading) loadQuestion('back');
+    });
 
     // Initial load
-    if (document.getElementById('questionText')) {
-        loadQuestion();
-    }
+    loadQuestion();
 }
+
 
 function setupEventListeners() {
     const startButton = document.getElementById('startQuiz');
@@ -170,13 +173,6 @@ function setupEventListeners() {
         });
     }
 
-    const backButton = document.getElementById('backButton');
-    if (backButton) {
-        backButton.addEventListener('click', () => {
-            window.location.href = '/quiz/';
-        });
-    }
-
     // Hamburger menu
     const hamburger = document.getElementById('hamburger-menu');
     const mobileMenu = document.getElementById('mobile-menu');
@@ -188,16 +184,85 @@ function setupEventListeners() {
     }
 }
 
-// Initialize non-quiz specific listeners
-document.addEventListener('DOMContentLoaded', setupEventListeners);
+// Initialize everything when DOM is loaded
+document.addEventListener('DOMContentLoaded', function () {
+    // Only initialize quiz if on quiz page
+    if (document.getElementById('question')) {
+        loadModelViewer().then(() => {
+            setupModelViewer();
+            initializeQuiz();
+        });
+    }
+    
+    // Initialize other event listeners
+    setupEventListeners();
+    
+    // Initialize scoreboard if on end page
+    initializeScoreboard();
+});
 
-// This section handles the score submission to local storage
+function initializeScoreboard() {
+    const scoreList = document.getElementById('scoreList');
+    if (!scoreList) return;
+
+    const scores = JSON.parse(localStorage.getItem('quizScores')) || [];
+
+    // Sort by newest first
+    scores.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+    if (scores.length === 0) {
+        scoreList.innerHTML = '<p>No scores yet.</p>';
+        return;
+    }
+
+    const extraScores = [];
+
+    scores.forEach((entry, index) => {
+        const btn = document.createElement('button');
+        btn.className = 'score-btn';
+        btn.textContent = `${entry.name} - ${entry.score}`;
+
+        if (index >= 5) {
+            btn.style.display = 'none';
+            btn.classList.add('extra-score');
+            extraScores.push(btn);
+        }
+
+        scoreList.appendChild(btn);
+    });
+
+    if (extraScores.length > 0) {
+        const toggleBtn = document.createElement('button');
+        toggleBtn.className = 'secondary-btn';
+        toggleBtn.textContent = 'Show More';
+        toggleBtn.style.marginTop = '10px';
+        toggleBtn.style.display = 'block';
+
+        toggleBtn.addEventListener('click', function () {
+            const isHidden = extraScores[0].style.display === 'none';
+
+            extraScores.forEach(btn => {
+                btn.style.display = isHidden ? 'inline-block' : 'none';
+            });
+
+            toggleBtn.textContent = isHidden ? 'Show Less' : 'Show More';
+        });
+
+        scoreList.after(toggleBtn);
+    }
+}
+
+// Score submission
 document.addEventListener('DOMContentLoaded', function() {
     const submitButton = document.getElementById('submit-score');
     const anonymousButton = document.getElementById('submit-anonymous');
     const userNameInput = document.getElementById('user-name');
     const submissionMessage = document.getElementById('submission-message');
-    const score = JSON.parse(document.getElementById('finalScore').textContent);
+    const finalScoreEl = document.getElementById('finalScore');
+
+    if (!submitButton || !anonymousButton || !userNameInput || !submissionMessage || !finalScoreEl) return;
+
+    const score = JSON.parse(finalScoreEl.textContent);
 
     // Submit with name
     submitButton.addEventListener('click', function() {
@@ -232,58 +297,5 @@ document.addEventListener('DOMContentLoaded', function() {
         submitButton.disabled = true;
         anonymousButton.disabled = true;
         userNameInput.disabled = true;
-    }
-});
-
-// This section handles the scoreboard display
-document.addEventListener('DOMContentLoaded', function () {
-    const scoreList = document.getElementById('scoreList');
-    const scores = JSON.parse(localStorage.getItem('quizScores')) || [];
-
-    // Sort by newest first
-    scores.sort((a, b) => new Date(b.date) - new Date(a.date));
-
-    if (scores.length === 0) {
-        scoreList.innerHTML = '<p>No scores yet.</p>';
-        return;
-    }
-
-    const extraScores = [];
-
-    scores.forEach((entry, index) => {
-        const btn = document.createElement('button');
-        btn.className = 'score-btn';
-        btn.textContent = `${entry.name} - ${entry.score}`;
-
-        if (index >= 5) {
-            btn.style.display = 'none';
-            btn.classList.add('extra-score');
-            extraScores.push(btn);
-        }
-
-        scoreList.appendChild(btn);
-    });
-
-    console.log("Extra scores count:", extraScores.length);
-
-    if (extraScores.length > 0) {
-        const toggleBtn = document.createElement('button');
-        toggleBtn.className = 'secondary-btn';
-        toggleBtn.textContent = 'Show More';
-        toggleBtn.style.marginTop = '10px';
-        toggleBtn.style.display = 'block';
-
-        toggleBtn.addEventListener('click', function () {
-            const isHidden = extraScores[0].style.display === 'none';
-
-            extraScores.forEach(btn => {
-                btn.style.display = isHidden ? 'inline-block' : 'none';
-            });
-
-            toggleBtn.textContent = isHidden ? 'Show Less' : 'Show More';
-        });
-
-        scoreList.after(toggleBtn);
-        console.log("Toggle button added");
     }
 });
