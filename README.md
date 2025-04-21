@@ -87,6 +87,8 @@ Perfect for developers feeling stuck in the "I'm not good enough" loop. Take the
         - ![end-of-quiz](documents/images/end-of-quiz.png)
       - end of quiz mobile 
         - ![endofquiz-page-mobile](documents/images/endofquiz-page-mobile.png)
+      - about page 
+        - ![about-team](documents/images/about-page.png) 
 
 
 ## The Surface Plane
