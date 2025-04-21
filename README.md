@@ -162,7 +162,7 @@ Perfect for developers feeling stuck in the "I'm not good enough" loop. Take the
 
     - *Mobile:*
       - Home Page
-         - ![home](documents/images/home-lhm.png)
+         - ![home](documents/images/home-lhd.png)
        - Quiz Page
          - ![quiz](documents/images/quiz-lhd.png)
        - About Page
