@@ -23,8 +23,7 @@ def end_view(request):
     # Get the final score from session or API
     final_data = {
         "score": "100%",
-        "message":
-            "You scored 100% because being willing to try makes you a coder"
+        "message": "You scored 100% because being willing to try makes you a coder"
     }
     return render(request, 'end.html', {'final_data': final_data})
 
@@ -37,6 +36,15 @@ def get_quiz_questions(request):
     if 'current_position' not in request.session:
         request.session['current_position'] = -1  # Start before first question
     request.session.modified = True
+
+    # Check if quiz is complete (5 questions answered)
+    if len(request.session['quiz_questions']) >= 5 and request.session['current_position'] >= 4:
+        request.session.flush()
+        return JsonResponse({
+            'complete': True,
+            'score': '100%',
+            'message': 'You scored 100% because being willing to try makes you a coder'
+        })
 
     # Handle POST requests (next/back navigation)
     if request.method == 'POST':
@@ -53,7 +61,8 @@ def get_quiz_questions(request):
                     'question': current_question['question'],
                     'answers': current_question['answers'],
                     'current': request.session['current_position'] + 1,
-                    'total': 5
+                    'total': 5,
+                    'complete': False
                 })
             else:
                 # Handle next action
@@ -62,6 +71,15 @@ def get_quiz_questions(request):
                     request.session['current_position'] += 1
                     current_question = request.session['quiz_questions'][request.session['current_position']]
                 else:
+                    # Don't generate new question if we've reached the limit
+                    if len(request.session['quiz_questions']) >= 5:
+                        request.session.flush()
+                        return JsonResponse({
+                            'complete': True,
+                            'score': '100%',
+                            'message': 'You scored 100% because being willing to try makes you a coder'
+                        })
+                    
                     # Generate new question
                     used_questions = [q["question"] for q in request.session['quiz_questions']]
                     question = gen_quiz_question(used_questions)
@@ -73,7 +91,8 @@ def get_quiz_questions(request):
                     'question': request.session['quiz_questions'][request.session['current_position']]['question'],
                     'answers': request.session['quiz_questions'][request.session['current_position']]['answers'],
                     'current': request.session['current_position'] + 1,
-                    'total': 5
+                    'total': 5,
+                    'complete': False
                 })
                 
         except Exception as e:
@@ -88,7 +107,8 @@ def get_quiz_questions(request):
             'question': current_question['question'],
             'answers': current_question['answers'],
             'current': request.session['current_position'] + 1,
-            'total': 5
+            'total': 5,
+            'complete': False
         })
     else:
         # Generate first question
@@ -100,5 +120,6 @@ def get_quiz_questions(request):
             'question': question['question'],
             'answers': question['answers'],
             'current': 1,
-            'total': 5
+            'total': 5,
+            'complete': False
         })

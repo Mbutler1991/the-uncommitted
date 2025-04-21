@@ -102,6 +102,12 @@ function initializeQuiz() {
                 return;
             }
 
+            // Additional check to prevent going beyond 5 questions
+            if (data.current > 5) {
+                window.location.href = '/quiz/end/';
+                return;
+            }
+
             updateQuestionUI(data);
         } catch (error) {
             console.error('Error:', error);
@@ -149,6 +155,7 @@ function initializeQuiz() {
     // Initial load
     loadQuestion();
 }
+
 
 function setupEventListeners() {
     const startButton = document.getElementById('startQuiz');
